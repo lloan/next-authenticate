@@ -2,7 +2,7 @@
 import {DefaultSeo} from "next-seo";
 import SEO from "../../../next-seo.config";
 
-export default function Redirect() {
+export default function Redirect(): JSX.Element {
   return (
     <section id="redirect-animation">
       <DefaultSeo {...Object.assign(SEO, {

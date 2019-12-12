@@ -1,4 +1,4 @@
-export default function Loader() {
+export default function Loader(): JSX.Element {
   const offsetSupport = () => {
     if (process.browser && navigator) {
       const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
@@ -32,7 +32,7 @@ export default function Loader() {
       </div>
 
       {/* Stuff*/}
-      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style={{"display": "none"}}>
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style={{"display": "none",}}>
         <defs>
           <filter id="goo">
             <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />

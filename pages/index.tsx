@@ -1,6 +1,6 @@
 import {NextSeo} from 'next-seo';
 import Link from "next/link";
-import Footer from '../src/components/global/Footer';
+import Footer from '../src/components/global/Footer.tsx';
 
 function Home() {
   return (
