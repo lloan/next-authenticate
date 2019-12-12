@@ -1,11 +1,11 @@
 import fetch from 'isomorphic-unfetch';
 
 export default function Logout() {
-  const handleLogout = (e) => {
+  const handleLogout = (e: MouseEvent) => {
     e.preventDefault();
 
     // API route that will handle signing out
-    const url = '/api/authenticate/logout';
+    const url: string = '/api/authenticate/logout';
 
     fetch(url, {
       method: 'POST',
@@ -25,8 +25,8 @@ export default function Logout() {
   };
 
   return (
-    <button className="uk-button black" onClick={(e) => {
-      handleLogout(e);
+    <button className="uk-button black" onClick={(event) => {
+      handleLogout(this.event);
     }}>
         logout
     </button>

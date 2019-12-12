@@ -1,7 +1,7 @@
 import '../sass/main.scss';
 import App from 'next/app';
-import Context from '../src/context';
-import {redirects, unprotected} from '../src/pages';
+import Context from '../src/context.ts';
+import {redirects, unprotected} from '../src/pages.ts';
 import fetch from "isomorphic-unfetch";
 import {DefaultSeo} from 'next-seo';
 import SEO from '../next-seo.config';

@@ -1,11 +1,11 @@
-import {useState} from 'react';
+import {useState, FormEvent} from 'react';
 import Message from './global/Message';
 
 function Signup() {
   const [message, setMessage] = useState({state: false, message: ""});
 
   // function that checks if class is found, proceed to do its magic
-  const handleToggle = (el, find, action) => {
+  const handleToggle = (el: any, find: string, action: string) => {
     if (action === 'add') {
       if (!el.classList.contains(find)) {
         el.classList.add(find);
@@ -16,7 +16,7 @@ function Signup() {
   };
 
   // headers template for api calls
-  const headers = (data) => {
+  const headers = (data: { username?: string; email?: string; password?: string; role?: string; }) => {
     return {
       method: 'POST',
       headers: {
@@ -27,17 +27,17 @@ function Signup() {
   };
 
   // Handles the sign up process
-  const handleSignUp = (e) => {
+  const handleSignUp = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // activate spinner
-    const spinner = document.getElementById('spinner');
+    const spinner: HTMLElement = document.getElementById('spinner');
     spinner.classList.remove('uk-hidden');
 
     // get all required variables to submit new user request
-    const username = document.querySelector('[name="signup-username"]').value;
-    const email = document.querySelector('[name="signup-email"]').value;
-    const password = document.querySelector('[name="signup-password"]').value;
+    const username: string = document.querySelector('[name="signup-username"]').value;
+    const email: string = document.querySelector('[name="signup-email"]').value;
+    const password: string = document.querySelector('[name="signup-password"]').value;
 
     // API route that will handle signing in
     const url = '/api/authenticate/signup';
@@ -76,11 +76,11 @@ function Signup() {
     e.preventDefault();
 
     // get all required variables to submit new user request
-    const user = document.querySelector('[name="signup-username"]');
-    const spinner = user.nextSibling;
-    const check = spinner.nextSibling;
-    const username = user.value;
-    const message = document.querySelector('[data-message="username"]');
+    const user: HTMLSelectElement = document.querySelector('[name="signup-username"]');
+    const spinner: ChildNode = user.nextSibling;
+    const check: ChildNode = spinner.nextSibling;
+    const username: string = user.value;
+    const message: HTMLElement = document.querySelector('[data-message="username"]');
 
     handleToggle(spinner, 'uk-hidden', 'remove');
     handleToggle(check, 'uk-hidden', 'add');
@@ -106,15 +106,15 @@ function Signup() {
         .catch((error) => console.log(error));
   };
 
-  const handleEmailCheck = (e) => {
+  const handleEmailCheck = (e: FormEvent) => {
     e.preventDefault();
 
     // get all required variables to submit new user request
-    const address = document.querySelector('[name="signup-email"]');
-    const email = address.value;
-    const spinner = address.nextSibling;
-    const check = spinner.nextSibling;
-    const message = document.querySelector('[data-message="email"]');
+    const address: HTMLSelectElement = document.querySelector('[name="signup-email"]');
+    const email: string = address.value;
+    const spinner: ChildNode = address.nextSibling;
+    const check: ChildNode = spinner.nextSibling;
+    const message: HTMLElement = document.querySelector('[data-message="email"]');
 
     handleToggle(spinner, 'uk-hidden', 'remove');
     handleToggle(check, 'uk-hidden', 'add');
@@ -165,7 +165,7 @@ function Signup() {
 
   // Handles password validation as a whole
   const handlePassword = (e) => {
-    const password = document.querySelector('[name="signup-password"]');
+    const password: HTMLSelectElement = document.querySelector('[name="signup-password"]');
     const pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}$/;
 
     // check off the requirements that are met

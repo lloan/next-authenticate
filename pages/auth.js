@@ -1,7 +1,7 @@
-import Login from '../src/components/Login';
-import Signup from '../src/components/Signup';
-import Recovery from '../src/components/Recovery';
-import Spinner from '../src/components/global/Spinner';
+import Login from '../src/components/Login.tsx';
+import Signup from '../src/components/Signup.tsx';
+import Recovery from '../src/components/Recovery.tsx';
+import Spinner from '../src/components/global/Spinner.tsx';
 import SEO from "../next-seo.config";
 import {DefaultSeo} from "next-seo";
 
