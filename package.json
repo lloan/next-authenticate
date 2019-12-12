@@ -1,10 +1,10 @@
 {
-  "name": "portal",
-  "version": "0.1.0",
+  "name": "next-authenticate",
+  "version": "0.0.1",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/inland-empire-software-development/portal"
+    "url": "https://github.com/lloan/next-authenticate"
   },
   "scripts": {
     "dev": "next dev",
