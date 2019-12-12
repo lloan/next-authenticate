@@ -1,0 +1,6 @@
+*.log
+.env
+.next
+.idea
+.vscode
+node_modules

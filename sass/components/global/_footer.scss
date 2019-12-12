@@ -1,0 +1,11 @@
+footer {
+  background-color: #dedede;
+
+  &.stick {
+    position: absolute;
+    bottom: 0;
+    margin: 0 auto;
+    display: block;
+    width: 100%;
+  }
+}
