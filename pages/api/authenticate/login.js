@@ -5,7 +5,7 @@ import client from '../../../lib/redis';
 export default async (req, res) => {
   // set headers
   res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
-  res.setHeader("Content-Type", "application/javascript");
+  res.setHeader("Content-Type", "json/javascript");
 
   // messages
   const invalid = {

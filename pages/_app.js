@@ -31,7 +31,7 @@ export default class Portal extends App {
         });
   };
 
-  sendToLogin(redirect) {
+  redirect(redirect) {
     setTimeout(() => {
       if (document) {
         document.location.href = redirect;
@@ -50,7 +50,7 @@ export default class Portal extends App {
       // if user has access to page but there is a redirect
       if (access && redirect) {
         // send user to proper page if they're logged in
-        this.sendToLogin(redirect);
+        this.redirect(redirect);
 
         return <Redirect />;
       } else if (access || isPublic) {
@@ -63,7 +63,9 @@ export default class Portal extends App {
       } else if (!access) {
         return <Unauthorized/>;
       } else {
-        return 'error';
+        this.redirect("/auth");
+
+        return <Redirect/>;
       }
     } else {
       return <Loader/>;

@@ -6,9 +6,9 @@ function Welcome() {
       <div className="uk-grid uk-flex-middle">
         <div>
           <h1 className="primary">Thank You</h1>
-          <p className="uk-text-bolder">Welcome to the Spark learning portal.</p>
+          <p className="uk-text-bolder">We appreciate your interest.</p>
           <p className="subtitle-text">
-              You will be receiving an email shortly.
+              You will be receiving a confirmation email short.
           </p>
           <p>
               Confirm that you received the email and then try logging in to

@@ -2,8 +2,8 @@ import uikitcss from "./CSS";
 import Footer from "./templates/partial/footer";
 import Button from "./templates/component/Button";
 
-const confirmation = (props) => {
-  const {url = "", user = "there"} = props;
+const confirmation = (options) => {
+  const {url = "", user = "there"} = options;
   return (
     <html>
       <head>
@@ -30,7 +30,7 @@ const confirmation = (props) => {
                           <td>
                             <p>Hello {user},</p>
                             <p>Your email was used to sign up for our service. Please confirm that it was you.</p>
-                            <p>After you confirm, you will be able to sign in.</p>
+                            <p>After you confirm, you will be able to sign in to your account.</p>
                             <Button align="left" url={url} label="Confirm"/>
                           </td>
                         </tr>

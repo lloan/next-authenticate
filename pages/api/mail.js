@@ -13,13 +13,37 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+const handleAction = (options) => {
+  const {action, user} = options;
+
+  // handle the action requested
+  switch (action) {
+    case "confirmation":
+      return {
+        subject: "Confirm your email.",
+        html: ReactDOMServer.renderToStaticMarkup({
+          user,
+          url: process.env.HOST + "/confirm",
+        }),
+      };
+    case "default":
+      res.status(500);
+      res.send("Error sending email");
+      break;
+  }
+};
+
 export default async (req, res) => {
-  const mailOptions= {
+  // set headers
+  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+  res.setHeader("Content-Type", "json/javascript");
+
+  const {action = false, user = false, email = false} = req.body;
+
+  const mailOptions= Object.assign({
     from: '"Administrator" <admin@iesd.com>',
-    to: 'lloanalas@outlook.com',
-    subject: "Email Test",
-    html: ReactDOMServer.renderToStaticMarkup(confirmation),
-  };
+    to: String(email),
+  }, handleAction({action, user}));
 
 
   transporter.sendMail(mailOptions, (err, info) => {

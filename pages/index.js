@@ -20,7 +20,7 @@ function Home() {
           </section>
         </div>
       </section>
-      <Footer stick={true}/>
+      <Footer/>
     </main>
 
   );
