@@ -5,9 +5,9 @@ import {redirects, unprotected} from '../src/pages.ts';
 import fetch from "isomorphic-unfetch";
 import {DefaultSeo} from 'next-seo';
 import SEO from '../next-seo.config';
-import Unauthorized from "../src/components/global/Unauthorized";
-import Redirect from "../src/components/animation/Redirect";
-import Loader from "../src/components/animation/Loader";
+import Unauthorized from "../src/components/global/Unauthorized.tsx";
+import Redirect from "../src/components/animation/Redirect.tsx";
+import Loader from "../src/components/animation/Loader.tsx";
 
 export default class Portal extends App {
   state = {

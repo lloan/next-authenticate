@@ -8,7 +8,7 @@ function Unauthorized() {
         title: "Unauthorized",
       })}
       />
-      <img src="/images/illustrations/access-denied.jpg" />
+      <img src="/images/illustrations/forbidden.gif" />
     </main>
   );
 }
