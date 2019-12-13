@@ -1,7 +1,7 @@
 import SEO from "../../../next-seo.config";
 import {DefaultSeo} from "next-seo";
 
-function Unauthorized() {
+function Unauthorized(): JSX.Element {
   return (
     <main id="unauthorized">
       <DefaultSeo {...Object.assign(SEO, {

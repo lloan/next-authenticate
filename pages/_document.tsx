@@ -1,7 +1,7 @@
 import Document, {Html, Head, Main, NextScript} from 'next/document';
 
-class main extends Document {
-  render(props) {
+class Doc extends Document {
+  render() {
     return (
       <Html>
         <Head>
@@ -22,4 +22,4 @@ class main extends Document {
   }
 }
 
-export default main;
+export default Doc;
