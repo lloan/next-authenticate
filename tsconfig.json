@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "module": "es2015",
+    "module": "esnext",
     "jsx": "preserve",
     "allowSyntheticDefaultImports": true,
     "lib": [
@@ -10,7 +10,15 @@
     ],
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "strict": true // This is useful too, to enable several strict checks
+    "strict": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true
   },
   "typeRoots": [
     "node_modules/@types",
@@ -21,9 +29,17 @@
     "typings"
   ],
   "rules": {
-    "@typescript-eslint/member-naming": ["error", {
-      "private": "^__",
-      "protected": "^_"
-    }]
-  }
+    "@typescript-eslint/member-naming": [
+      "error",
+      {
+        "private": "^__",
+        "protected": "^_"
+      }
+    ]
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ]
 }
