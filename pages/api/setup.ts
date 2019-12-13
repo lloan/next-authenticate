@@ -1,9 +1,11 @@
 import db from "../../lib/db";
+import {Request} from "../../src/interfaces/RequestInterface";
+import {Response} from "../../src/interfaces/ResponseInterface";
 const root = require("app-root-path");
 const fs = require("fs");
 
 // Setup database tables if they don't exist.
-export default (req, res) => {
+export default (req: Request, res: Response) => {
   const {secret} = req.query; // secret key from user requesting setup
 
   // check if secret given matches one in this environment
@@ -14,7 +16,7 @@ export default (req, res) => {
 
       // Iterate through file directory and find models
       fs.readdirSync(root + "/models") // directory to read
-          .forEach((file) => { // iterate through each file in that directory
+          .forEach((file: string) => { // iterate through each file in that directory
             const fileName = file.replace(".js", ""); // remove .js
             const model = require("./../../models/" + fileName); // import the model
             models[fileName] = model[fileName]; // add model to temp. store for later use
