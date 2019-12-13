@@ -2,7 +2,7 @@ import {NextSeo} from 'next-seo';
 import Link from "next/link";
 import Footer from '../src/components/global/Footer';
 
-function Confirmation(props) {
+function Confirmation() {
   return (
     <main>
       <section>
@@ -26,8 +26,8 @@ function Confirmation(props) {
   );
 }
 
-Confirmation.getInitialProps = (ctx) => {
-  if (!process.browser && ctx.hasOwnProperty('query')) {
+Confirmation.getInitialProps = (ctx: any) => {
+  if (!(process as any).browser && ctx.hasOwnProperty('query')) {
     const {token, user} = ctx.query;
 
     // user must have token in query and user name

@@ -5,32 +5,37 @@ function Login() {
   const handleLogin = (event: FormEvent) => {
     event.preventDefault();
 
-    const username: string = document.querySelector('[name="login-username"]').value;
-    const password: string = document.querySelector('[name="login-password"]').value;
-    const spinner: Element = document.getElementById('spinner');
+    const username: HTMLSelectElement | null = document.querySelector('[name="login-username"]');
+    const password:  HTMLSelectElement | null  = document.querySelector('[name="login-password"]');
+    const spinner:  HTMLElement | null  = document.getElementById('spinner');
 
     // show spinner while working
-    spinner.classList.remove('uk-hidden');
+    if (spinner) spinner.classList.remove('uk-hidden');
 
     // API route that will handle signing in
     const url = '/api/authenticate/login';
+    const data = {
+      username: username ? username.value : null,
+      password: password ? password.value : null,
+    }
+
 
     fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({username, password}),
+      body: JSON.stringify(data),
     })
         .then((response) => response.json())
         .then((response) => {
           const {state} = response;
 
           // hide spinner as work is essentially done
-          spinner.classList.add('uk-hidden');
+          if (spinner) spinner.classList.add('uk-hidden');
 
           if (state) {
-            if (document && UIkit) {
+            if ((process as any).browser && document && UIkit) {
               document.location.href = "/dashboard";
             }
           } else {
