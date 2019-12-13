@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-function Welcome() {
+function Welcome(): JSX.Element {
   return (
     <div id="welcome" className="uk-container">
       <div className="uk-grid uk-flex-middle">

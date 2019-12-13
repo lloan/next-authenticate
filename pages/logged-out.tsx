@@ -2,7 +2,7 @@ import Link from 'next/link';
 import SEO from "../next-seo.config";
 import {DefaultSeo} from "next-seo";
 
-function LoggedOut() {
+function LoggedOut(): JSX.Element {
   return (
     <section className="uk-container uk-margin-large-top">
       <DefaultSeo {...Object.assign(SEO, {
