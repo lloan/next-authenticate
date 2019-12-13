@@ -12,7 +12,7 @@
     "development": "next start -p 5201",
     "build": "next build",
     "start": "next start",
-    "lint": "./node_modules/.bin/eslint ./**/*.{js,jsx} --quiet --fix || true",
+    "lint": "./node_modules/.bin/eslint ./**/*.{ts,tsx} --quiet || true",
     "test": "jest || true"
   },
   "dependencies": {
@@ -42,6 +42,8 @@
     "uikit": "^3.2.4"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.11.0",
+    "@typescript-eslint/parser": "^2.11.0",
     "babel-eslint": "^10.0.3",
     "eslint": "^6.7.2",
     "eslint-config-google": "^0.14.0",

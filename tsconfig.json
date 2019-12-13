@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "es2015",
+    "jsx": "preserve",
+    "allowSyntheticDefaultImports": true,
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strict": true // This is useful too, to enable several strict checks
+  },
+  "typeRoots": [
+    "node_modules/@types",
+    "@types"
+  ],
+  "exclude": [
+    "node_modules",
+    "typings"
+  ],
+  "rules": {
+    "@typescript-eslint/member-naming": ["error", {
+      "private": "^__",
+      "protected": "^_"
+    }]
+  }
+}

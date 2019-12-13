@@ -1,8 +1,10 @@
+import React from "react";
 import uikitcss from "./CSS";
 import Footer from "./templates/partial/footer";
 import Button from "./templates/component/Button";
 
-const confirmation = (options) => {
+
+const Confirmation = (options: { url?: ""; user?: "there"; }) => {
   const {url = "", user = "there"} = options;
   return (
     <html>
@@ -17,7 +19,7 @@ const confirmation = (options) => {
       </head>
       <body className="">
         <span className="preheader">Email confirmation</span>
-        <table role="presentation" border="0" cellPadding="0" cellSpacing="0" className="body">
+        <table role="presentation" cellPadding="0" cellSpacing="0" className="body">
           <tr>
             <td>&nbsp;</td>
             <td className="container">
@@ -25,7 +27,7 @@ const confirmation = (options) => {
                 <table role="presentation" className="main">
                   <tr>
                     <td className="wrapper">
-                      <table role="presentation" border="0" cellPadding="0" cellSpacing="0">
+                      <table role="presentation" cellPadding="0" cellSpacing="0">
                         <tr>
                           <td>
                             <p>Hello {user},</p>
@@ -50,4 +52,4 @@ const confirmation = (options) => {
   );
 };
 
-export default confirmation();
+export default Confirmation;

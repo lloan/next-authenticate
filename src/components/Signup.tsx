@@ -1,22 +1,30 @@
-import {useState, FormEvent} from 'react';
+import React, {useState, FormEvent} from 'react';
 import Message from './global/Message';
 
-function Signup() {
-  const [message, setMessage] = useState({state: false, message: ""});
+interface PasswordCheck {
+  [property: string]: boolean;
+}
+
+/**
+ * Renders the signup component
+ * @constructor
+ */
+function Signup(): JSX.Element {
+  const [message, setMessage] = useState({state: false, message: ''});
 
   // function that checks if class is found, proceed to do its magic
-  const handleToggle = (el: any, find: string, action: string) => {
-    if (action === 'add') {
-      if (!el.classList.contains(find)) {
-        el.classList.add(find);
+  const handleToggle = (element: any | null, find: string, action: string) => {
+    if (element) {
+      if (action === 'add' && !element.classList.contains(find)) {
+        element.classList.add(find);
+      } else if (action === 'remove') {
+        element.classList.remove(find);
       }
-    } else if (action === 'remove') {
-      el.classList.remove(find);
     }
   };
 
   // headers template for api calls
-  const headers = (data: { username?: string; email?: string; password?: string; role?: string; }) => {
+  const headers = (data: object) => {
     return {
       method: 'POST',
       headers: {
@@ -30,57 +38,61 @@ function Signup() {
   const handleSignUp = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // activate spinner
-    const spinner: HTMLElement = document.getElementById('spinner');
-    spinner.classList.remove('uk-hidden');
+    if ((process as any).browser && document) {
+      const spinner: HTMLElement | null = document.getElementById('spinner');
 
-    // get all required variables to submit new user request
-    const username: string = document.querySelector('[name="signup-username"]').value;
-    const email: string = document.querySelector('[name="signup-email"]').value;
-    const password: string = document.querySelector('[name="signup-password"]').value;
+      if (spinner) spinner.classList.remove('uk-hidden');
 
-    // API route that will handle signing in
-    const url = '/api/authenticate/signup';
+      // get all required variables to submit new user request
+      const username: HTMLInputElement | null = document.querySelector('[name="signup-username"]');
+      const email: HTMLInputElement | null = document.querySelector('[name="signup-email"]');
+      const password: HTMLInputElement | null = document.querySelector('[name="signup-password"]');
 
-    try {
-      fetch(url, headers({username, email, password, role: 'subscriber'})).
-          then((response) => response.json()).
-          then((response) => {
-            spinner.classList.add('uk-hidden');
+      // API route that will handle signing in
+      const url = '/api/authenticate/signup';
 
-            if (response.serverStatus && response.serverStatus === 2) {
-              if (document) {
-                document.location.href = '/welcome';
+      if (username && email && password) {
+        const data: object = {
+          username: username.value,
+          email: email.value,
+          password: password.value,
+          role: "subscriber",
+        };
+
+        fetch(url, headers(data)).
+            then((response) => response.json()).
+            then((response) => {
+              if (spinner) spinner.classList.add('uk-hidden');
+
+              if (response.serverStatus && response.serverStatus === 2) {
+                if (document) {
+                  document.location.href = '/welcome';
+                  setMessage({
+                    state: false,
+                    message: '',
+                  });
+                }
+              } else {
                 setMessage({
-                  state: false,
-                  message: "",
+                  state: true,
+                  message: 'Error creating user, please contact an admin if it happens again.',
                 });
               }
-            } else {
-              setMessage({
-                state: true,
-                message: "Error creating user, please contact an admin if it happens again.",
-              });
-            }
-          }).
-          catch((error) => console.log(error));
-    } catch (error) {
-      console.error(
-          'You have an error in your code or there are Network issues.',
-          error,
-      );
+            }).
+            catch((error) => console.log(error));
+      }
     }
   };
 
-  const handleUserCheck = (e) => {
-    e.preventDefault();
+  const handleUserCheck = (event: FormEvent) => {
+    event.preventDefault();
 
     // get all required variables to submit new user request
-    const user: HTMLSelectElement = document.querySelector('[name="signup-username"]');
-    const spinner: ChildNode = user.nextSibling;
-    const check: ChildNode = spinner.nextSibling;
-    const username: string = user.value;
-    const message: HTMLElement = document.querySelector('[data-message="username"]');
+    const user: HTMLSelectElement | null = document.querySelector('[name="signup-username"]');
+    const spinner: ChildNode | null = user ? user.nextSibling : null;
+    const check: ChildNode | null = spinner ? spinner.nextSibling : null;
+    const username: string | null = user ? user.value : null;
+    const message: HTMLElement | null = document.querySelector('[data-message="username"]');
 
     handleToggle(spinner, 'uk-hidden', 'remove');
     handleToggle(check, 'uk-hidden', 'add');
@@ -93,14 +105,16 @@ function Signup() {
         .then((response) => {
           handleToggle(spinner, 'uk-hidden', 'add');
 
-          if (!response && username.length !== 0) {
-            message.style.visibility = 'hidden';
-            user.setCustomValidity('');
-            handleToggle(check, 'uk-hidden', 'remove');
-          } else {
-            message.style.visibility = 'visible';
-            user.setCustomValidity('Username already in use, try another.');
-            handleToggle(check, 'uk-hidden', 'add');
+          if (user && message && username) {
+            if (!response && username.length !== 0) {
+              message.style.visibility = 'hidden';
+              user.setCustomValidity('');
+              handleToggle(check, 'uk-hidden', 'remove');
+            } else {
+              message.style.visibility = 'visible';
+              user.setCustomValidity('Username already in use, try another.');
+              handleToggle(check, 'uk-hidden', 'add');
+            }
           }
         })
         .catch((error) => console.log(error));
@@ -110,11 +124,11 @@ function Signup() {
     e.preventDefault();
 
     // get all required variables to submit new user request
-    const address: HTMLSelectElement = document.querySelector('[name="signup-email"]');
-    const email: string = address.value;
-    const spinner: ChildNode = address.nextSibling;
-    const check: ChildNode = spinner.nextSibling;
-    const message: HTMLElement = document.querySelector('[data-message="email"]');
+    const address: HTMLSelectElement | null = document.querySelector('[name="signup-email"]');
+    const email: string | null = address ? address.value : null;
+    const spinner: ChildNode | null = address ? address.nextSibling : null;
+    const check: ChildNode | null = spinner ? spinner.nextSibling : null;
+    const message: HTMLElement | null = document.querySelector('[data-message="email"]');
 
     handleToggle(spinner, 'uk-hidden', 'remove');
     handleToggle(check, 'uk-hidden', 'add');
@@ -127,29 +141,33 @@ function Signup() {
         .then((response) => {
           handleToggle(spinner, 'uk-hidden', 'add');
 
-          if (!response && email.length !== 0) {
-            message.style.visibility = 'hidden';
-            address.setCustomValidity('');
-            handleToggle(check, 'uk-hidden', 'remove');
-          } else {
-            message.style.visibility = 'visible';
-            address.setCustomValidity('Email already in use, try another.');
-            handleToggle(check, 'uk-hidden', 'add');
+          if (message && address && email) {
+            if (!response && email.length !== 0) {
+              message.style.visibility = 'hidden';
+              address.setCustomValidity('');
+              handleToggle(check, 'uk-hidden', 'remove');
+            } else {
+              message.style.visibility = 'visible';
+              address.setCustomValidity('Email already in use, try another.');
+              handleToggle(check, 'uk-hidden', 'add');
+            }
           }
         })
         .catch((error) => console.log(error));
   };
 
   // Handles the visibility of the check marks for each requirement
-  const handleVisibilityToggle = (index, state) => {
+  const handleVisibilityToggle = (index: string, state: boolean) => {
     const requirement = document.querySelector(`[data-check="${index}"]`);
 
-    state ? requirement.classList.remove('uk-hidden') : requirement.classList.add('uk-hidden');
+    if (requirement) {
+      state ? requirement.classList.remove('uk-hidden') : requirement.classList.add('uk-hidden');
+    }
   };
 
   // Handles the testing of individual requirements
-  const handleRequirements = (password) => {
-    const check = {
+  const handleRequirements = (password: string) => {
+    const check: PasswordCheck = {
       number: /\d/.test(password),
       lower: /[a-z]/.test(password),
       upper: /[A-Z]/.test(password),
@@ -158,14 +176,15 @@ function Signup() {
 
     for (const requirement in check) {
       if (check.hasOwnProperty(requirement)) {
-        handleVisibilityToggle(requirement, check[requirement]);
+        const result = check[requirement];
+        handleVisibilityToggle(requirement, result);
       }
     }
   };
 
   // Handles password validation as a whole
-  const handlePassword = (e) => {
-    const password: HTMLSelectElement = document.querySelector('[name="signup-password"]');
+  const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const password: HTMLInputElement = event.target;
     const pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}$/;
 
     // check off the requirements that are met
@@ -184,27 +203,28 @@ function Signup() {
   };
 
   // Allows user to toggle password view
-  const showPassword = (e) => {
-    e.preventDefault();
+  const showPassword = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    event.preventDefault();
 
     const password = document.querySelector('[name="signup-password"]');
     const showPassword = document.querySelector('.show-password');
-    const type = password.getAttribute('type');
+    const type: string | null = password ? password.getAttribute('type') : null;
 
-
-    if (type === 'password') {
-      password.setAttribute('type', 'text');
-      showPassword.innerHTML = 'hide password';
-    } else {
-      password.setAttribute('type', 'password');
-      showPassword.innerHTML = 'show password';
+    if (password && showPassword) {
+      if (type === 'password') {
+        password.setAttribute('type', 'text');
+        showPassword.innerHTML = 'hide password';
+      } else {
+        password.setAttribute('type', 'password');
+        showPassword.innerHTML = 'show password';
+      }
     }
   };
 
   return (
     <section className="auth-signup">
       <Message message={message.message} hidden={message.state}/>
-      <p className="uk-text-center">Sign up today. It's free!</p>
+      <p className="uk-text-center">Sign up today. It&apos;s free!</p>
       <form onSubmit={(e) => handleSignUp(e)}>
         <div className="uk-margin uk-margin-remove-bottom">
           <div className="uk-inline uk-width-1-1">
@@ -245,11 +265,11 @@ function Signup() {
             <li>At least one uppercase character <i className="uk-hidden fa fa-check" data-check="upper"/></li>
             <li>At least 10 characters in length <i className="uk-hidden fa fa-check" data-check="length"/></li>
           </ul>
-          <a href="#" className="show-password uk-align-right" onClick={(e) => showPassword(e)}>show password</a>
+          <a href="#" className="show-password uk-align-right" onClick={(event) => showPassword(event)}>show password</a>
 
           <div className="uk-inline uk-width-1-1">
             <i className="uk-form-icon fa fa-lock-alt"/>
-            <input className="uk-input uk-form-large" onChange={(e) => handlePassword(e)}
+            <input className="uk-input uk-form-large" onChange={(event) => handlePassword(event)}
               type="password" placeholder="password" name="signup-password" autoComplete="current-password" required={true} minLength={10}/>
           </div>
 

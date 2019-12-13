@@ -1,13 +1,13 @@
 import '../sass/main.scss';
 import App from 'next/app';
-import Context from '../src/context.ts';
+import Context from '../src/context';
 import {redirects, unprotected} from '../src/pages.ts';
 import fetch from "isomorphic-unfetch";
 import {DefaultSeo} from 'next-seo';
 import SEO from '../next-seo.config';
-import Unauthorized from "../src/components/global/Unauthorized.tsx";
-import Redirect from "../src/components/animation/Redirect.tsx";
-import Loader from "../src/components/animation/Loader.tsx";
+import Unauthorized from "../src/components/global/Unauthorized";
+import Redirect from "../src/components/animation/Redirect";
+import Loader from "../src/components/animation/Loader";
 
 export default class Portal extends App {
   state = {

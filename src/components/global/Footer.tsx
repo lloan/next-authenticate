@@ -1,3 +1,5 @@
+import React from "react";
+
 function Footer(): JSX.Element {
   return (
     <footer className={`uk-margin-top uk-text-center uk-padding-small stick`} >

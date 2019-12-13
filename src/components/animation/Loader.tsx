@@ -1,6 +1,8 @@
+import React from "react";
+
 export default function Loader(): JSX.Element {
   const offsetSupport = () => {
-    if (process.browser && navigator) {
+    if (navigator) {
       const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
 
       if (!isChrome) {
