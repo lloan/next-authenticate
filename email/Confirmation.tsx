@@ -1,6 +1,6 @@
 import React from "react";
 import uikitcss from "./CSS";
-import Footer from "./templates/partial/footer";
+import Footer from "./templates/partial/Footer";
 import Button from "./templates/component/Button";
 
 

@@ -17,7 +17,6 @@ export default async (req: Request, res: Response) => {
 
   // check if secret given matches one in this environment
   if (secret !== undefined && process.env.SECRET === secret) {
-    console.log('here so far');
     // Promise based
     new Promise((resolve, reject) => {
       const models: Model = {}; // temporary store for all models
@@ -26,7 +25,6 @@ export default async (req: Request, res: Response) => {
       fs.readdirSync(root + "/models") // directory to read
           .forEach((file: string) => { // iterate through each file in that directory
             const fileName = file.replace(".ts", ""); // remove .js
-            console.log(fileName);
             const model = require("./../../models/" + fileName); // import the model
             models[fileName] = model.default; // add model to temp. store for later use
           });
@@ -37,12 +35,10 @@ export default async (req: Request, res: Response) => {
         .then((models: any) => {
           const messages: Message = {}; // temporary message store
 
-          console.log('inside promise', models);
           // iterate through all models found
           for (const model in models) {
           // model should have a main function with same name to trigger its creation
             if (models.hasOwnProperty(model)) {
-              console.log('in iteration - typeof model', typeof models[model]);
               messages[model] = models[model](db); // save result to the message store
             }
           }
@@ -58,7 +54,7 @@ export default async (req: Request, res: Response) => {
     // secret did not match, let user know they're not authorized to run setup
     res.status(400);
     res.send({
-      message: "not authorized to run setup...",
+      message: "not authorized...",
     });
   }
 };
