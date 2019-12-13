@@ -1,38 +1,49 @@
 import db from "../../lib/db";
 import {Request} from "../../src/interfaces/RequestInterface";
 import {Response} from "../../src/interfaces/ResponseInterface";
+import {error} from "next/dist/build/output/log";
 const root = require("app-root-path");
 const fs = require("fs");
 
+interface Model {
+    [property: string]: any;
+}
+
+type Message = Model
+
 // Setup database tables if they don't exist.
-export default (req: Request, res: Response) => {
+export default async (req: Request, res: Response) => {
   const {secret} = req.query; // secret key from user requesting setup
 
   // check if secret given matches one in this environment
   if (secret !== undefined && process.env.SECRET === secret) {
+    console.log('here so far');
     // Promise based
     new Promise((resolve, reject) => {
-      const models = {}; // temporary store for all models
+      const models: Model = {}; // temporary store for all models
 
       // Iterate through file directory and find models
       fs.readdirSync(root + "/models") // directory to read
           .forEach((file: string) => { // iterate through each file in that directory
-            const fileName = file.replace(".js", ""); // remove .js
+            const fileName = file.replace(".ts", ""); // remove .js
+            console.log(fileName);
             const model = require("./../../models/" + fileName); // import the model
-            models[fileName] = model[fileName]; // add model to temp. store for later use
+            models[fileName] = model.default; // add model to temp. store for later use
           });
 
       // if models found, resolve, reject if nothing found
       models.length === 0 ? reject(error) : resolve(models);
     })
-        .then(async (models) => {
-          const messages = {}; // temporary message store
+        .then((models: any) => {
+          const messages: Message = {}; // temporary message store
 
+          console.log('inside promise', models);
           // iterate through all models found
           for (const model in models) {
           // model should have a main function with same name to trigger its creation
             if (models.hasOwnProperty(model)) {
-              messages[model] = await models[model](db); // save result to the message store
+              console.log('in iteration - typeof model', typeof models[model]);
+              messages[model] = models[model](db); // save result to the message store
             }
           }
 

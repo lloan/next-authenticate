@@ -1,6 +1,6 @@
-module.exports = {
-  user: function(db) {
-    const query = `
+const user = async (db: any) => {
+  console.log('user called');
+  const query = `
     CREATE TABLE ${process.env.DBNAME}.user (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Unique user ID to identify a single unique user', 
     username VARCHAR(35) NOT NULL COMMENT 'Username should be unique ', 
@@ -15,6 +15,7 @@ module.exports = {
     UNIQUE INDEX username_UNIQUE (username ASC), 
     UNIQUE INDEX email_UNIQUE (email ASC))`;
 
-    return db.createTable("user", query);
-  },
+  return await db.createTable("user", query);
 };
+
+export default user;

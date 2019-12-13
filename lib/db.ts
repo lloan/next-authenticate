@@ -10,12 +10,13 @@ const db = mysql.createConnection({
   pool: {min: 0, max: 7},
 });
 
-db.createTable = function(tableName: string, query: string): Promise<object> {
-  console.log(`attempting to create ${name} table...`);
+db.createTable = function(tableName: string, query: any) {
+  console.log(`attempting to create ${tableName} table...`);
 
   return new Promise((resolve, reject) => {
+    console.log('in promise');
     // checks if table exists in this database
-    db.query(`SELECT * FROM ${process.env.DBNAME}.${tableName}`, function(error: { sqlMessage: any }, results: undefined) {
+    db.query(`SELECT * FROM ${process.env.DBNAME}.${tableName}`, function(error: any, results: any, fields: any) {
       if (error) console.log(error.sqlMessage ? error.sqlMessage : error);
 
       // if table exists
@@ -25,6 +26,7 @@ db.createTable = function(tableName: string, query: string): Promise<object> {
         // create the table using query passed in
         db.query(query, function(error: { sqlMessage: any }) {
           if (error) reject(error.sqlMessage ? error.sqlMessage : error);
+
           resolve({
             message: `...${tableName} table created!`,
           });
