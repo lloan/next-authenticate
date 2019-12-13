@@ -76,16 +76,41 @@ db.emailExists = function(email: string): Promise<object> {
   });
 };
 
+db.userConfirmed = function(user: string): Promise<boolean> {
+  return new Promise((resolve, reject) => {
+    db.query(`SELECT confirmation FROM ${process.env.DBNAME}.user WHERE username = ${escape(user)}`,
+        function(error: { sqlMessage: any }, results: string | any[]) {
+          if (error) reject(error.sqlMessage ? error.sqlMessage : error);
+
+          // check if confirmation is set to false or not (true == confirmed)
+          resolve(results.length !== 0 ? results[0] === false : false);
+        });
+  });
+}
+
+db.confirmUser = function(user: string, token: string): Promise<boolean> {
+  return new Promise((resolve, reject) => {
+    db.query(`SELECT confirmation FROM ${process.env.DBNAME}.user WHERE username = ${escape(user)}`,
+        function(error: { sqlMessage: any }, results: string | any[]) {
+          if (error) reject(error.sqlMessage ? error.sqlMessage : error);
+
+          // check if confirmation token matches one in DB
+          resolve(results.length !== 0 ? results[0] === token : false);
+        });
+  });
+}
+
 db.createUser = function(user: string, pass: string, email: string, role: string): Promise<object> {
   return new Promise((resolve, reject) => {
     const salt: string = bcrypt.genSaltSync(10);
     const hash: string = bcrypt.hashSync(pass, salt);
-    db.query(`INSERT INTO iesd_portal.user (username, password, email, role) VALUES ('${user}', '${hash}', '${email}', '${role}')`,
+    const token: string = bcrypt.genSaltSync(16); // will be used to confirm email - set to false after confirmation
+    db.query(`INSERT INTO iesd_portal.user (username, password, email, role, confirmation) VALUES ('${user}', '${hash}', '${email}', '${role}', '${token}')`,
         function(error: { sqlMessage: any }, results: object) {
           if (error) reject(error.sqlMessage ? error.sqlMessage : error);
 
           results !== undefined && results.hasOwnProperty('insertId') ?
-              resolve(results) :
+              resolve(Object.assign(results, {token})) :
               reject(results);
         });
   });

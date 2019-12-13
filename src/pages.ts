@@ -1,4 +1,6 @@
-const redirects: any = {
+import { Redirects } from "..";
+
+const redirects: Redirects = {
     "/": {redirect: false},
     "/welcome": {redirect: "/dashboard"},
     "/confirmation": {redirect: "/dashboard"},

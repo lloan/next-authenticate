@@ -1,18 +1,20 @@
 import React from "react";
-import uikitcss from "./CSS";
-import Footer from "./templates/partial/Footer";
-import Button from "./templates/component/Button";
+import uikitcss from "../../CSS";
+import Footer from "../partial/Footer";
+import Button from "../components/Button";
 
 
-const Confirmation = (options: { url?: ""; user?: "there" }) => {
-  const {url = "", user = "there"} = options;
+const Confirmation = (options: { url: string; username: string, token: string }) => {
+  const {url, username, token} = options; 
+  
+  if (!url || !username || !token) return (<p>An error has occurred, please contact the administrator</p>)
+
   return (
     <html>
       <head>
         <meta name="viewport" content="width=device-width"/>
         <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8"/>
         <title>Simple Transactional Email</title>
-
         <style>
           {uikitcss}
         </style>
@@ -30,17 +32,16 @@ const Confirmation = (options: { url?: ""; user?: "there" }) => {
                       <table role="presentation" cellPadding="0" cellSpacing="0">
                         <tr>
                           <td>
-                            <p>Hello {user},</p>
+                            <p>Hello {username},</p>
                             <p>Your email was used to sign up for our service. Please confirm that it was you.</p>
                             <p>After you confirm, you will be able to sign in to your account.</p>
-                            <Button align="left" url={url} label="Confirm"/>
+                            <Button align="left" url={`${url}/confirm?user=${username}&token=${token}`} label="Confirm"/>
                           </td>
                         </tr>
                       </table>
                     </td>
                   </tr>
                 </table>
-
                 <Footer/>
               </div>
             </td>
