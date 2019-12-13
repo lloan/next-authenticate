@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-unfetch';
-import { FormEvent } from 'react';
+import {FormEvent} from 'react';
 
 function Login() {
   const handleLogin = (event: FormEvent) => {
@@ -13,37 +13,37 @@ function Login() {
     spinner.classList.remove('uk-hidden');
 
     // API route that will handle signing in
-    const url: string = '/api/authenticate/login';
+    const url = '/api/authenticate/login';
 
     fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({username, password}),
     })
-      .then((response) => response.json())
-      .then((response) => {
-        const { state } = response;
+        .then((response) => response.json())
+        .then((response) => {
+          const {state} = response;
 
-        // hide spinner as work is essentially done
-        spinner.classList.add('uk-hidden');
+          // hide spinner as work is essentially done
+          spinner.classList.add('uk-hidden');
 
-        if (state) {
-          if (document && UIkit) {
-            document.location.href = "/dashboard";
+          if (state) {
+            if (document && UIkit) {
+              document.location.href = "/dashboard";
+            }
+          } else {
+            if (document && UIkit) {
+              UIkit['notification']({
+                message: `Incorrect login, please try again.`,
+                status: 'danger',
+                pos: 'top-left',
+                timeout: 5000,
+              });
+            }
           }
-        } else {
-          if (document && UIkit) {
-            UIkit['notification']({
-              message: `Incorrect login, please try again.`,
-              status: 'danger',
-              pos: 'top-left',
-              timeout: 5000
-            });
-          }
-        }
-      });
+        });
   };
 
   return (

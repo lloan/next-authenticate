@@ -4,13 +4,13 @@ import Footer from "./templates/partial/footer";
 import Button from "./templates/component/Button";
 
 
-const Confirmation = (options: { url?: ""; user?: "there"; }) => {
+const Confirmation = (options: { url?: ""; user?: "there" }) => {
   const {url = "", user = "there"} = options;
   return (
     <html>
       <head>
         <meta name="viewport" content="width=device-width"/>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8"/>
         <title>Simple Transactional Email</title>
 
         <style>
