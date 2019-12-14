@@ -76,7 +76,7 @@ db.emailExists = function(email: string): Promise<object> {
   });
 };
 
-db.userConfirmed = function(user: string): Promise<boolean> {
+db.emailConfirmed = function(user: string): Promise<boolean> {
   return new Promise((resolve, reject) => {
     db.query(`SELECT confirmation FROM ${process.env.DBNAME}.user WHERE username = ${escape(user)}`,
         function(error: { sqlMessage: any }, results: string | any[]) {
@@ -88,14 +88,29 @@ db.userConfirmed = function(user: string): Promise<boolean> {
   });
 }
 
-db.confirmUser = function(user: string, token: string): Promise<boolean> {
+db.confirmEmail = function(user: string, token: string): Promise<boolean> {
   return new Promise((resolve, reject) => {
+    // Get current confirmation token from the DB for user in question
     db.query(`SELECT confirmation FROM ${process.env.DBNAME}.user WHERE username = ${escape(user)}`,
-        function(error: { sqlMessage: any }, results: string | any[]) {
+        function(error: any, results: any) {
           if (error) reject(error.sqlMessage ? error.sqlMessage : error);
+          
+          // check if data was found 
+          if (results.length !== 0) {
+            const {confirmation} = results[0]; // get confirmation token 
 
-          // check if confirmation token matches one in DB
-          resolve(results.length !== 0 ? results[0] === token : false);
+            // check if confirmation token and other token match 
+            if (confirmation === token) {
+                // token matched - set token to true
+                db.query(`UPDATE ${process.env.DBNAME}.user SET confirmation = 'true' WHERE username = ${escape(user)}`, 
+                function(error: any, results: any) {
+                  if (error) reject(error.sqlMessage ? error.sqlMessage : error);
+
+                  // return results - we assume this will work.
+                  resolve(results);
+                })                
+            }
+          }
         });
   });
 }

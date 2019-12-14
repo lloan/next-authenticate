@@ -75,7 +75,7 @@ function Signup(): JSX.Element {
                 .then(response => response.json())
                 .then(response => {
                   if (response && response.state){
-                    document.location.href = `/welcome?user=${username}`
+                    document.location.href = `/welcome?user=${username.value}`
                     setMessage({
                       state: false,
                       message: '',

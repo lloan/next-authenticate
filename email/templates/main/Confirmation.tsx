@@ -14,7 +14,7 @@ const Confirmation = (options: { url: string; username: string, token: string })
       <head>
         <meta name="viewport" content="width=device-width"/>
         <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <title>Simple Transactional Email</title>
+        <title>Email confirmation</title>
         <style>
           {uikitcss}
         </style>
@@ -33,9 +33,13 @@ const Confirmation = (options: { url: string; username: string, token: string })
                         <tr>
                           <td>
                             <p>Hello {username},</p>
-                            <p>Your email was used to sign up for our service. Please confirm that it was you.</p>
+                            <p>This email was used to sign up for our service. Please confirm that it was you.</p>
                             <p>After you confirm, you will be able to sign in to your account.</p>
-                            <Button align="left" url={`${url}/confirm?user=${username}&token=${token}`} label="Confirm"/>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                          <Button align="left" url={`${url}api/validate/confirm?user=${username}&token=${token}`} label="Confirm"/>
                           </td>
                         </tr>
                       </table>

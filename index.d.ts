@@ -8,6 +8,7 @@ export interface Request {
 }
 
 export interface Response {
+    writeHead(statusCode: number, headers: { [properties: string]: string });
     send: (result: any | { message: string }) => void;
     status: (status: number) => void;
     setHeader: (header: string, value: string) => void;
