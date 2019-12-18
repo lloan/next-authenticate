@@ -1,6 +1,6 @@
 import ReactDOMServer from 'react-dom/server';
 import Confirmation from '../../email/templates/main/Confirmation';
-import { Request, Response } from '../..';
+import {Request, Response} from '../..';
 
 const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
@@ -24,23 +24,30 @@ const handleAction = (options: { action: string; username: string; data?: any })
       return {
         subject: "Confirm your email.",
         html: ReactDOMServer.renderToStaticMarkup(Confirmation( {
-          username, 
+          username,
           url: (process as any).env.HOST,
           token: data.token,
         })),
-      }; 
+      };
   }
 };
 
-export default async (req: Request, res: Response) => {
+export default async (req: Request, res: Response): Promise<void> => {
   // set headers
   res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
   res.setHeader("Content-Type", "json/javascript");
 
   const {action, username, email, data} = req.body;
+  console.log(action, username, email, data);
+  if (!action || !username || !email) {
+    res.status(400);
+    res.send({
+      state: false,
+      message: "Invalid input",
+    });
+    return;
+  }
 
-  if (!action || !username || !email) return 
-  
   const mailOptions= Object.assign({
     from: '"Administrator" <admin@iesd.com>',
     to: String(email),

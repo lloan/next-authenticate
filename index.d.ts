@@ -1,9 +1,9 @@
-import { Component } from "react";
+import {Component} from "react";
 
 export interface Request {
     body: {
-        [property: string]: string
-      }
+        [property: string]: string;
+      };
     query: any;
 }
 
@@ -16,8 +16,8 @@ export interface Response {
 
 export interface Redirects {
     [page: string]: {
-        redirect: string | boolean
-    }
+        redirect: string | boolean;
+    };
 }
 
 export default class NextAuthenticate extends Component<NextAuthenticateProps> { }

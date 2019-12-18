@@ -1,57 +1,67 @@
 import React from "react";
-import uikitcss from "../../CSS";
-import Footer from "../partial/Footer";
-import Button from "../components/Button";
+import mailCSS from "../../CSS";
 
 
-const Confirmation = (options: { url: string; username: string, token: string }) => {
-  const {url, username, token} = options; 
-  
-  if (!url || !username || !token) return (<p>An error has occurred, please contact the administrator</p>)
+const Confirmation = (options: { url: string; username: string; token: string }) => {
+  const {url, username, token} = options;
+
+  if (!url || !username || !token) return (<p>An error has occurred, please contact the administrator</p>);
 
   return (
     <html>
       <head>
         <meta name="viewport" content="width=device-width"/>
-        <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <title>Email confirmation</title>
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="x-apple-disable-message-reformatting"/>
+        <meta name="format-detection" content="telephone=no,address=no,email=no,date=no,url=no"/>
+        <title>Email Confirmation</title>
         <style>
-          {uikitcss}
+          {mailCSS}
         </style>
       </head>
-      <body className="">
-        <span className="preheader">Email confirmation</span>
-        <table role="presentation" cellPadding="0" cellSpacing="0" className="body">
-          <tr>
-            <td>&nbsp;</td>
-            <td className="container">
-              <div className="content">
-                <table role="presentation" className="main">
-                  <tr>
-                    <td className="wrapper">
-                      <table role="presentation" cellPadding="0" cellSpacing="0">
-                        <tr>
-                          <td>
-                            <p>Hello {username},</p>
-                            <p>This email was used to sign up for our service. Please confirm that it was you.</p>
-                            <p>After you confirm, you will be able to sign in to your account.</p>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                          <Button align="left" url={`${url}api/validate/confirm?user=${username}&token=${token}`} label="Confirm"/>
-                          </td>
-                        </tr>
-                      </table>
-                    </td>
-                  </tr>
-                </table>
-                <Footer/>
-              </div>
-            </td>
-            <td>&nbsp;</td>
-          </tr>
-        </table>
+      <body style={{margin: 0, padding: '0 !important', backgroundColor: '#ffffff'}}>
+        <div style={{width: '100%', backgroundColor: '#ffffff'}}>
+          <div style={{display: 'none', fontSize: '1px', lineHeight: '1px', maxHeight: '0px', maxWidth: '0px', opacity: 0, overflow: 'hidden', fontFamily: 'sans-serif'}}>
+          Email confirmation.
+          </div>
+          <div style={{display: 'none', fontSize: '1px', lineHeight: '1px', maxHeight: '0px', maxWidth: '0px', opacity: 0, overflow: 'hidden', fontFamily: 'sans-serif'}}>
+          ‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;
+          </div>
+          <div style={{maxWidth: '600px', margin: '0 auto'}} className="email-container">
+            <table cellSpacing={0} cellPadding={0} style={{margin: 'auto'}}>
+              <tbody><tr>
+                <td style={{backgroundColor: '#ffffff'}}>
+                  <table role="presentation" cellSpacing={0} cellPadding={0}>
+                    <tbody><tr>
+                      <td style={{padding: '20px', fontFamily: 'sans-serif', fontSize: '15px', lineHeight: '20px', color: '#555555'}}>
+                        <h1 style={{margin: '0 0 10px 0', fontFamily: 'sans-serif', fontSize: '25px', lineHeight: '30px', color: '#333333', fontWeight: 'normal'}}>Email confirmation</h1>
+                        <p style={{margin: '10px 0 10px 0'}}>Hello {username},</p>
+                        <p style={{margin: 0}}>This email was used to sign up for our service.</p>
+                        <p style={{margin: 0}}>Please confirm that it was you.</p>
+                        <p style={{margin: '10px 0 0 0'}}>After you confirm, you will be able to sign in to your account.</p>
+                        <p style={{margin: '10px 0 0 0'}}><a href={`${url}api/validate/confirm?user=${username}&token=${token}`}>Confirm</a></p>
+                      </td>
+                    </tr>
+                    </tbody></table>
+                </td>
+              </tr>
+              <tr>
+                <td aria-hidden="true" style={{fontSize: '0px', lineHeight: '0px'}}>
+                  &nbsp;
+                </td>
+              </tr>
+              </tbody></table>
+            <table role="presentation" cellSpacing={0} cellPadding={0} style={{margin: 'auto'}}>
+              <tbody><tr>
+                <td style={{padding: '20px', fontFamily: 'sans-serif', fontSize: '12px', lineHeight: '15px', textAlign: 'center', color: '#888888'}}>
+                  <br /><br />
+                  Inland Empire Software Development, Inc.<br /><span className="unstyle-auto-detected-links">3499 Tenth St. Riverside, CA, 92501 US<br />(800)437-0267</span>
+                  <br /><br />
+                </td>
+              </tr>
+              </tbody></table>
+          </div>
+        </div>
       </body>
     </html>
   );

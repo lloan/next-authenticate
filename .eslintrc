@@ -38,6 +38,7 @@
         "no-mixed-spaces-and-tabs": 2,
         "quotes": 0,
         "one-var": 0,
+        "react/prop-types": 0,
         "react/react-in-jsx-scope": 0,
         "strict": 2,
         "camelcase": 2

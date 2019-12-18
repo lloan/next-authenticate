@@ -8,9 +8,9 @@ import SEO from '../next-seo.config';
 import Unauthorized from "../src/components/global/Unauthorized";
 import Redirect from "../src/components/animation/Redirect";
 import Loader from "../src/components/animation/Loader";
- 
+
 interface UserState {
-  [property: string]: any
+  [property: string]: any;
 }
 
 export default class MyApp extends App {

@@ -1,7 +1,7 @@
 import Footer from '../src/components/global/Footer';
-import { NextSeo } from "next-seo";
+import {NextSeo} from "next-seo";
 
-function Confirmation(props: any)  { 
+function Confirmation(props: any) {
   const {query} = props;
   const {user = ''} = query;
 
@@ -23,7 +23,7 @@ function Confirmation(props: any)  {
 }
 
 Confirmation.getInitialProps = ({query}: any) => {
-  return {query}
-}
+  return {query};
+};
 
 export default Confirmation;

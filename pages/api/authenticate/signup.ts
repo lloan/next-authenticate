@@ -1,5 +1,5 @@
 import db from '../../../lib/db';
-import { Request, Response } from '../../..';
+import {Request, Response} from '../../..';
 
 export default async (req: Request, res: Response): Promise<void> => {
   // Get credentials from JSON body

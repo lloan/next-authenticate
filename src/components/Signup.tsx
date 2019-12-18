@@ -61,32 +61,32 @@ function Signup(): JSX.Element {
           password: password.value,
           role: "subscriber",
         })))
-        .then((response) => response.json())
-        .then((response) => {
+            .then((response) => response.json())
+            .then((response) => {
               if (spinner) spinner.classList.add('uk-hidden');
 
               if (response.serverStatus && response.serverStatus === 2) {
                 fetch('/api/mail', headers(Object.assign(data, {
                   action: 'confirm',
                   data: {
-                    token: response.token
+                    token: response.token,
                   },
                 })))
-                .then(response => response.json())
-                .then(response => {
-                  if (response && response.state){
-                    document.location.href = `/welcome?user=${username.value}`
-                    setMessage({
-                      state: false,
-                      message: '',
+                    .then((response) => response.json())
+                    .then((response) => {
+                      if (response && response.state) {
+                        document.location.href = `/welcome?user=${username.value}`;
+                        setMessage({
+                          state: false,
+                          message: '',
+                        });
+                      } else {
+                        setMessage({
+                          state: true,
+                          message: 'Error sending confirmation email, please contact an admin.',
+                        });
+                      }
                     });
-                  } else {
-                    setMessage({
-                      state: true,
-                      message: 'Error sending confirmation email, please contact an admin.',
-                    }); 
-                  }                  
-                }) 
               } else {
                 setMessage({
                   state: true,

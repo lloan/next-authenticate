@@ -1,13 +1,13 @@
-import { Redirects } from "..";
+import {Redirects} from "..";
 
 const redirects: Redirects = {
-    "/": {redirect: false},
-    "/welcome": {redirect: "/dashboard"},
-    "/confirmation": {redirect: "/dashboard"},
-    "/logged-out": {redirect: "/dashboard"},
-    "/auth": {redirect: "/dashboard"},
+  "/": {redirect: false},
+  "/welcome": {redirect: "/dashboard"},
+  "/confirmation": {redirect: "/dashboard"},
+  "/logged-out": {redirect: "/dashboard"},
+  "/auth": {redirect: "/dashboard"},
 };
 
 const unprotected: Array<string> = ["/", "/auth", "/logged-out", "/welcome", "/confirmation"];
 
-export {redirects, unprotected}
+export {redirects, unprotected};

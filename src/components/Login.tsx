@@ -6,8 +6,8 @@ function Login() {
     event.preventDefault();
 
     const username: HTMLSelectElement | null = document.querySelector('[name="login-username"]');
-    const password:  HTMLSelectElement | null  = document.querySelector('[name="login-password"]');
-    const spinner:  HTMLElement | null  = document.getElementById('spinner');
+    const password: HTMLSelectElement | null = document.querySelector('[name="login-password"]');
+    const spinner: HTMLElement | null = document.getElementById('spinner');
 
     // show spinner while working
     if (spinner) spinner.classList.remove('uk-hidden');
@@ -17,7 +17,7 @@ function Login() {
     const data = {
       username: username ? username.value : null,
       password: password ? password.value : null,
-    }
+    };
 
 
     fetch(url, {
