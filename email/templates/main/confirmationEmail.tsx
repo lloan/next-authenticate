@@ -2,7 +2,7 @@ import React from "react";
 import mailCSS from "../../CSS";
 
 
-const Confirmation = (options: { url: string; username: string; token: string }) => {
+const confirmationEmail = (options: { url: string; username: string; token: string }) => {
   const {url, username, token} = options;
 
   if (!url || !username || !token) return (<p>An error has occurred, please contact the administrator</p>);
@@ -67,4 +67,4 @@ const Confirmation = (options: { url: string; username: string; token: string })
   );
 };
 
-export default Confirmation;
+export default confirmationEmail;

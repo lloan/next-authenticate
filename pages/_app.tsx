@@ -21,7 +21,7 @@ export default class MyApp extends App {
     isPublic: null,
   };
 
-  componentDidMount() {
+  componentDidMount(): void {
     const {pathname} = this.props.router;
     const redirect = redirects[pathname] ? redirects[pathname].redirect : false;
     const isPublic = unprotected.includes(pathname);
@@ -43,7 +43,6 @@ export default class MyApp extends App {
       console.log('redirecting...');
     }, 2000);
   }
-
 
   render() {
     const {Component, pageProps} = this.props;

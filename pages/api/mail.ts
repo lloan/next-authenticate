@@ -1,5 +1,5 @@
 import ReactDOMServer from 'react-dom/server';
-import Confirmation from '../../email/templates/main/Confirmation';
+import confirmationEmail from '../../email/templates/main/confirmationEmail';
 import {Request, Response} from '../..';
 
 const nodemailer = require('nodemailer');
@@ -23,7 +23,7 @@ const handleAction = (options: { action: string; username: string; data?: any })
     case "confirm":
       return {
         subject: "Confirm your email.",
-        html: ReactDOMServer.renderToStaticMarkup(Confirmation( {
+        html: ReactDOMServer.renderToStaticMarkup(confirmationEmail( {
           username,
           url: (process as any).env.HOST,
           token: data.token,

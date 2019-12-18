@@ -1,6 +1,3 @@
-/**
- * Renders password recovery component
- */
 function Recovery(): JSX.Element {
   return (
     <section className="auth-recovery">
