@@ -4,6 +4,10 @@
     "module": "esnext",
     "jsx": "preserve",
     "allowSyntheticDefaultImports": true,
+    "types": [
+      "node",
+      "UIkit"
+    ],
     "lib": [
       "esnext",
       "dom"
@@ -22,7 +26,8 @@
   },
   "typeRoots": [
     "node_modules/@types",
-    "@types"
+    "@types",
+    "index.d.ts"
   ],
   "exclude": [
     "node_modules",

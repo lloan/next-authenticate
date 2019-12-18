@@ -1,7 +1,12 @@
 import Document, {Html, Head, Main, NextScript} from 'next/document';
-
-class main extends Document {
-  render(props) {
+/**
+ * Shared components amongst all pages - resources needed placed here.
+ */
+class Doc extends Document {
+  /**
+   * @return {JSX.Element}
+   */
+  render(): JSX.Element {
     return (
       <Html>
         <Head>
@@ -22,4 +27,4 @@ class main extends Document {
   }
 }
 
-export default main;
+export default Doc;

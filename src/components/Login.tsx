@@ -1,49 +1,54 @@
 import fetch from 'isomorphic-unfetch';
-import { FormEvent } from 'react';
+import {FormEvent} from 'react';
 
 function Login() {
   const handleLogin = (event: FormEvent) => {
     event.preventDefault();
 
-    const username: string = document.querySelector('[name="login-username"]').value;
-    const password: string = document.querySelector('[name="login-password"]').value;
-    const spinner: Element = document.getElementById('spinner');
+    const username: HTMLSelectElement | null = document.querySelector('[name="login-username"]');
+    const password: HTMLSelectElement | null = document.querySelector('[name="login-password"]');
+    const spinner: HTMLElement | null = document.getElementById('spinner');
 
     // show spinner while working
-    spinner.classList.remove('uk-hidden');
+    if (spinner) spinner.classList.remove('uk-hidden');
 
     // API route that will handle signing in
-    const url: string = '/api/authenticate/login';
+    const url = '/api/authenticate/login';
+    const data = {
+      username: username ? username.value : null,
+      password: password ? password.value : null,
+    };
+
 
     fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify(data),
     })
-      .then((response) => response.json())
-      .then((response) => {
-        const { state } = response;
+        .then((response) => response.json())
+        .then((response) => {
+          const {state} = response;
 
-        // hide spinner as work is essentially done
-        spinner.classList.add('uk-hidden');
+          // hide spinner as work is essentially done
+          if (spinner) spinner.classList.add('uk-hidden');
 
-        if (state) {
-          if (document && UIkit) {
-            document.location.href = "/dashboard";
+          if (state) {
+            if ((process as any).browser && document && UIkit) {
+              document.location.href = "/dashboard";
+            }
+          } else {
+            if (document && UIkit) {
+              UIkit['notification']({
+                message: `Incorrect login, please try again.`,
+                status: 'danger',
+                pos: 'top-left',
+                timeout: 5000,
+              });
+            }
           }
-        } else {
-          if (document && UIkit) {
-            UIkit['notification']({
-              message: `Incorrect login, please try again.`,
-              status: 'danger',
-              pos: 'top-left',
-              timeout: 5000
-            });
-          }
-        }
-      });
+        });
   };
 
   return (

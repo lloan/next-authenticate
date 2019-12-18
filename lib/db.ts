@@ -10,12 +10,13 @@ const db = mysql.createConnection({
   pool: {min: 0, max: 7},
 });
 
-db.createTable = function(tableName: string, query: string): Promise<object> {
-  console.log(`attempting to create ${name} table...`);
+db.createTable = function(tableName: string, query: any) {
+  console.log(`attempting to create ${tableName} table...`);
 
   return new Promise((resolve, reject) => {
+    console.log('in promise');
     // checks if table exists in this database
-    db.query(`SELECT * FROM ${process.env.DBNAME}.${tableName}`, function(error: { sqlMessage: any }, results: undefined) {
+    db.query(`SELECT * FROM ${process.env.DBNAME}.${tableName}`, function(error: any, results: any, fields: any) {
       if (error) console.log(error.sqlMessage ? error.sqlMessage : error);
 
       // if table exists
@@ -25,6 +26,7 @@ db.createTable = function(tableName: string, query: string): Promise<object> {
         // create the table using query passed in
         db.query(query, function(error: { sqlMessage: any }) {
           if (error) reject(error.sqlMessage ? error.sqlMessage : error);
+
           resolve({
             message: `...${tableName} table created!`,
           });
@@ -74,16 +76,56 @@ db.emailExists = function(email: string): Promise<object> {
   });
 };
 
+db.emailConfirmed = function(user: string): Promise<boolean> {
+  return new Promise((resolve, reject) => {
+    db.query(`SELECT confirmation FROM ${process.env.DBNAME}.user WHERE username = ${escape(user)}`,
+        function(error: { sqlMessage: any }, results: string | any[]) {
+          if (error) reject(error.sqlMessage ? error.sqlMessage : error);
+
+          // check if confirmation is set to false or not (true == confirmed)
+          resolve(results.length !== 0 ? results[0] === false : false);
+        });
+  });
+};
+
+db.confirmEmail = function(user: string, token: string): Promise<boolean> {
+  return new Promise((resolve, reject) => {
+    // Get current confirmation token from the DB for user in question
+    db.query(`SELECT confirmation FROM ${process.env.DBNAME}.user WHERE username = ${escape(user)}`,
+        function(error: any, results: any) {
+          if (error) reject(error.sqlMessage ? error.sqlMessage : error);
+
+          // check if data was found
+          if (results.length !== 0) {
+            const {confirmation} = results[0]; // get confirmation token
+
+            // check if confirmation token and other token match
+            if (confirmation === token) {
+              // token matched - set token to true
+              db.query(`UPDATE ${process.env.DBNAME}.user SET confirmation = 'true' WHERE username = ${escape(user)}`,
+                  function(error: any, results: any) {
+                    if (error) reject(error.sqlMessage ? error.sqlMessage : error);
+
+                    // return results - we assume this will work.
+                    resolve(results);
+                  });
+            }
+          }
+        });
+  });
+};
+
 db.createUser = function(user: string, pass: string, email: string, role: string): Promise<object> {
   return new Promise((resolve, reject) => {
     const salt: string = bcrypt.genSaltSync(10);
     const hash: string = bcrypt.hashSync(pass, salt);
-    db.query(`INSERT INTO iesd_portal.user (username, password, email, role) VALUES ('${user}', '${hash}', '${email}', '${role}')`,
+    const token: string = bcrypt.genSaltSync(16); // will be used to confirm email - set to false after confirmation
+    db.query(`INSERT INTO iesd_portal.user (username, password, email, role, confirmation) VALUES ('${user}', '${hash}', '${email}', '${role}', '${token}')`,
         function(error: { sqlMessage: any }, results: object) {
           if (error) reject(error.sqlMessage ? error.sqlMessage : error);
 
           results !== undefined && results.hasOwnProperty('insertId') ?
-              resolve(results) :
+              resolve(Object.assign(results, {token})) :
               reject(results);
         });
   });

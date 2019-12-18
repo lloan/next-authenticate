@@ -1,8 +1,8 @@
 import {NextSeo} from 'next-seo';
 import Link from "next/link";
-import Footer from '../src/components/global/Footer.tsx';
+import Footer from '../src/components/global/Footer';
 
-function Home() {
+function Home(): JSX.Element {
   return (
     <main>
       <section>

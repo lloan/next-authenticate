@@ -55,23 +55,38 @@ function Signup(): JSX.Element {
         const data: object = {
           username: username.value,
           email: email.value,
-          password: password.value,
-          role: "subscriber",
         };
 
-        fetch(url, headers(data)).
-            then((response) => response.json()).
-            then((response) => {
+        fetch(url, headers(Object.assign(data, {
+          password: password.value,
+          role: "subscriber",
+        })))
+            .then((response) => response.json())
+            .then((response) => {
               if (spinner) spinner.classList.add('uk-hidden');
 
               if (response.serverStatus && response.serverStatus === 2) {
-                if (document) {
-                  document.location.href = '/welcome';
-                  setMessage({
-                    state: false,
-                    message: '',
-                  });
-                }
+                fetch('/api/mail', headers(Object.assign(data, {
+                  action: 'confirm',
+                  data: {
+                    token: response.token,
+                  },
+                })))
+                    .then((response) => response.json())
+                    .then((response) => {
+                      if (response && response.state) {
+                        document.location.href = `/welcome?user=${username.value}`;
+                        setMessage({
+                          state: false,
+                          message: '',
+                        });
+                      } else {
+                        setMessage({
+                          state: true,
+                          message: 'Error sending confirmation email, please contact an admin.',
+                        });
+                      }
+                    });
               } else {
                 setMessage({
                   state: true,

@@ -6,7 +6,7 @@ import React from "react";
  */
 export default function Loader(): JSX.Element {
   const offsetSupport = () => {
-    if (process.browser as any && navigator) {
+    if ((process as any).browser && navigator) {
       const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
 
       if (!isChrome) {

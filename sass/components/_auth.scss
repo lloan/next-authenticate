@@ -13,12 +13,18 @@
     font-size: 14px;
   }
 
-  .input-spinner + i.fa.fa-check {
+  .input-spinner {
     position: absolute;
-    left: -30px;
-    top: 20px;
-    color: $green;
-    font-size: 18px;
+    left: -36px;
+    top: 15px;
+
+    + i.fa.fa-check {
+      position: absolute;
+      left: -30px;
+      top: 20px;
+      color: $green;
+      font-size: 18px;
+    }
   }
 
   .password-requirements {

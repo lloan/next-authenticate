@@ -1,7 +1,7 @@
 import '../sass/main.scss';
 import App from 'next/app';
 import Context from '../src/context';
-import {redirects, unprotected} from '../src/pages.ts';
+import {redirects, unprotected} from '../src/pages';
 import fetch from "isomorphic-unfetch";
 import {DefaultSeo} from 'next-seo';
 import SEO from '../next-seo.config';
@@ -9,15 +9,19 @@ import Unauthorized from "../src/components/global/Unauthorized";
 import Redirect from "../src/components/animation/Redirect";
 import Loader from "../src/components/animation/Loader";
 
-export default class Portal extends App {
-  state = {
+interface UserState {
+  [property: string]: any;
+}
+
+export default class MyApp extends App {
+  state: UserState = {
     user: null,
     access: null,
     redirect: null,
     isPublic: null,
   };
 
-  componentDidMount() {
+  componentDidMount(): void {
     const {pathname} = this.props.router;
     const redirect = redirects[pathname] ? redirects[pathname].redirect : false;
     const isPublic = unprotected.includes(pathname);
@@ -31,15 +35,14 @@ export default class Portal extends App {
         });
   };
 
-  redirect(redirect) {
+  redirect(redirect: string) {
     setTimeout(() => {
-      if (document) {
+      if ((process as any).browser) {
         document.location.href = redirect;
       }
       console.log('redirecting...');
     }, 2000);
   }
-
 
   render() {
     const {Component, pageProps} = this.props;

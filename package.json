@@ -12,12 +12,10 @@
     "development": "next start -p 5201",
     "build": "next build",
     "start": "next start",
-    "lint": "./node_modules/.bin/eslint ./**/*.{ts,tsx} --quiet || true",
+    "lint": "./node_modules/.bin/eslint ./**/*.{js,ts,tsx} --quiet --fix || true",
     "test": "jest || true"
   },
   "dependencies": {
-    "@types/node": "^12.12.17",
-    "@types/react": "^16.9.16",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-sass": "^1.0.1",
     "app-root-path": "^3.0.0",
@@ -42,6 +40,11 @@
     "uikit": "^3.2.4"
   },
   "devDependencies": {
+    "@types/next-seo": "^1.10.0",
+    "@types/node": "^12.12.17",
+    "@types/react": "^16.9.16",
+    "@types/react-dom": "^16.9.4",
+    "@types/uikit": "^2.27.7",
     "@typescript-eslint/eslint-plugin": "^2.11.0",
     "@typescript-eslint/parser": "^2.11.0",
     "babel-eslint": "^10.0.3",

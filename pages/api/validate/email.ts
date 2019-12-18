@@ -1,13 +1,26 @@
 import db from '../../../lib/db';
+import {Request} from '../../../src/interfaces/RequestInterface';
+import {Response} from '../../../src/interfaces/ResponseInterface';
 
-export default async (req, res) => {
+export default async (req: Request, res: Response) => {
+  if (!req.body.email) {
+    res.status(500);
+    res.send({
+      message: "Error with data provided.",
+    });
+
+    return false;
+  }
+
   // Get credentials from JSON body
   const {email} = req.body;
 
   db.emailExists(email)
-      .then((result) => {
+      .then((result: any) => {
         res.send(JSON.stringify(result));
-      }).catch((error) => {
+        res.status(200);
+      }).catch((error: any) => {
         res.send(JSON.stringify(error));
+        res.status(500);
       });
 };

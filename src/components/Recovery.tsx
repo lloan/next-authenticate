@@ -1,4 +1,4 @@
-function Recovery() {
+function Recovery(): JSX.Element {
   return (
     <section className="auth-recovery">
       <h3 className="uk-text-center">Forgot your password?</h3>
