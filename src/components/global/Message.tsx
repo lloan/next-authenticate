@@ -1,4 +1,4 @@
-function Message(props) {
+function Message(props: any): JSX.Element {
   const getPriority = () => props.priority ? ['primary', 'warning', 'error'][props.priority] : 'secondary';
 
   return (

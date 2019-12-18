@@ -1,7 +1,11 @@
 import fetch from 'isomorphic-unfetch';
 import {FormEvent} from 'react';
 
-function Login() {
+interface Notification extends UIkit.Notify {
+  notification: Function;
+}
+
+function Login(): JSX.Element {
   const handleLogin = (event: FormEvent) => {
     event.preventDefault();
 
@@ -40,7 +44,7 @@ function Login() {
             }
           } else {
             if (document && UIkit) {
-              UIkit['notification']({
+              (UIkit as unknown as Notification).notification({
                 message: `Incorrect login, please try again.`,
                 status: 'danger',
                 pos: 'top-left',
