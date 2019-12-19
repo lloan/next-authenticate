@@ -13,7 +13,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "./node_modules/.bin/eslint ./**/*.{js,ts,tsx} --quiet --fix || true",
-    "test": "jest || true"
+    "test": "jest || true",
+    "reset": "rm -rf src/ sass/ pages/ node_modules/ yarn.lock models/ lib/ email/ && git reset --hard && yarn install"
   },
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
