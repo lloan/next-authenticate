@@ -7,12 +7,12 @@ bluebird.promisifyAll(redis.Multi.prototype);
 const client = redis.createClient(process.env.REDISPORT, process.env.REDISIP);
 client.auth(process.env.REDISPASS);
 
-client.setToken = (username, token) => {
+client.setToken = (username: string, token: string) => {
   return client.setAsync(String(token), username);
 };
 
-client.checkToken = (username, token) => {
-  return client.getAsync(String(token)).then(function(user) {
+client.checkToken = (username: string, token: string) => {
+  return client.getAsync(String(token)).then(function(user: null) {
     return user === null ? false : username === user;
   });
 };

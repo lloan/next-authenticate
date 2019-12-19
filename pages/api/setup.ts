@@ -1,6 +1,5 @@
 import db from "../../lib/db";
-import {Request} from "../../src/interfaces/RequestInterface";
-import {Response} from "../../src/interfaces/ResponseInterface";
+import {Response, Request} from "../../index";
 import {error} from "next/dist/build/output/log";
 const root = require("app-root-path");
 const fs = require("fs");

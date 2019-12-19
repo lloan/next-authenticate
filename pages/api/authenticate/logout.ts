@@ -1,4 +1,6 @@
-export default async (req, res) => {
+import {Request, Response} from '../../..';
+
+export default async (_req: Request, res: Response) => {
   // set headers
   res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
   res.setHeader('Set-Cookie', [`portal-token=null; HttpOnly`, `portal-user=null; HttpOnly`]);

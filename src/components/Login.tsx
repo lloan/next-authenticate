@@ -28,8 +28,8 @@ function Login(): JSX.Element {
       },
       body: JSON.stringify(data),
     })
-        .then((response) => response.json())
-        .then((response) => {
+        .then((response: { json: () => any }) => response.json())
+        .then((response: { state: any }) => {
           const {state} = response;
 
           // hide spinner as work is essentially done
@@ -53,7 +53,7 @@ function Login(): JSX.Element {
   return (
     <section className="auth-login">
       <p className="uk-text-center">Sign in to your account</p>
-      <form onSubmit={(e) => handleLogin(e)}>
+      <form onSubmit={(e: any) => handleLogin(e)}>
         <div className="uk-margin">
           <div className="uk-inline uk-width-1-1">
             <i className="uk-form-icon fa fa-user" />

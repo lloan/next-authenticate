@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const auth = {};
+const auth: any = {}; // TODO: Find a suitable type
 
-auth.verifyPassword = (password, hash) => bcrypt.compareSync(password, hash);
+auth.verifyPassword = (password: string, hash: string) => bcrypt.compareSync(password, hash);
 
-auth.tokenize = (username) => jwt.sign({username}, process.env.JWTKEY, {
+auth.tokenize = (username: string) => jwt.sign({username}, process.env.JWTKEY, {
   algorithm: 'HS256',
   expiresIn: 300,
 });

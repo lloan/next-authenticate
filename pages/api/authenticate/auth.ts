@@ -1,6 +1,7 @@
 import client from '../../../lib/redis';
+import {Request, Response} from '../../..';
 
-export default async (req, res) => {
+export default async (req: Request, res: Response) => {
   const token = req.cookies['portal-token'];
   const user = req.cookies['portal-user'];
   const access = await client.checkToken(user, token);

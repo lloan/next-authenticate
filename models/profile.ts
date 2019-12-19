@@ -1,4 +1,4 @@
-const profile = async (db: any) => {
+const profile = async (db: {[props: string]: Function}) => {
   console.log('profile called');
 
   const query = `CREATE TABLE ${process.env.DBNAME}.profile ( 

@@ -1,6 +1,5 @@
 import db from '../../../lib/db';
-import {Request} from '../../../src/interfaces/RequestInterface';
-import {Response} from '../../../src/interfaces/ResponseInterface';
+import {Response, Request} from '../../../index';
 
 export default async (req: Request, res: Response) => {
   if (!req.body.email) {
