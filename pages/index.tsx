@@ -1,4 +1,5 @@
-import {NextSeo} from 'next-seo';
+import SEO from "../next-seo.config";
+import {DefaultSeo} from "next-seo";
 import Link from "next/link";
 import Footer from '../src/components/global/Footer';
 
@@ -7,10 +8,9 @@ function Home(): JSX.Element {
     <main>
       <section>
         <div className="uk-container" >
-          <NextSeo
-            config={{
-              title: "Authenticate",
-            }}
+          <DefaultSeo {...Object.assign(SEO, {
+            title: `Home`,
+          })}
           />
           <section className="uk-padding">
             <p>Home</p>

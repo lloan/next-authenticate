@@ -1,5 +1,5 @@
 import ReactDOMServer from 'react-dom/server';
-import confirmationEmail from '../../email/templates/main/confirmationEmail';
+import confirmationEmail from './../../email/templates/main/confirmationEmail';
 import {Request, Response} from '../..';
 
 const nodemailer = require('nodemailer');

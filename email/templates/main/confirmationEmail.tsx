@@ -39,7 +39,7 @@ const confirmationEmail = (options: { url: string; username: string; token: stri
                         <p style={{margin: 0}}>This email was used to sign up for our service.</p>
                         <p style={{margin: 0}}>Please confirm that it was you.</p>
                         <p style={{margin: '10px 0 0 0'}}>After you confirm, you will be able to sign in to your account.</p>
-                        <p style={{margin: '10px 0 0 0'}}><a href={`${url}api/validate/confirm?user=${username}&token=${token}`}>Confirm</a></p>
+                        <p style={{margin: '10px 0 0 0'}}><a href={`${url}confirmation?user=${username}&token=${token}`}>Confirm</a></p>
                       </td>
                     </tr>
                     </tbody></table>

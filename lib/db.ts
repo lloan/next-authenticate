@@ -16,7 +16,7 @@ db.createTable = function(tableName: string, query: any) {
   return new Promise((resolve, reject) => {
     console.log('in promise');
     // checks if table exists in this database
-    db.query(`SELECT * FROM ${process.env.DBNAME}.${tableName}`, function(error: any, results: any, fields: any) {
+    db.query(`SELECT * FROM ${process.env.DBNAME}.${tableName}`, function(error: any, results: any) {
       if (error) console.log(error.sqlMessage ? error.sqlMessage : error);
 
       // if table exists
@@ -99,17 +99,23 @@ db.confirmEmail = function(user: string, token: string): Promise<boolean> {
           if (results.length !== 0) {
             const {confirmation} = results[0]; // get confirmation token
 
-            // check if confirmation token and other token match
-            if (confirmation === token) {
-              // token matched - set token to true
-              db.query(`UPDATE ${process.env.DBNAME}.user SET confirmation = 'true' WHERE username = ${escape(user)}`,
+            // if account is already active, let user know
+            if (confirmation == 'active') {
+              resolve(confirmation);
+            } else if (confirmation === token) {
+              // token matched - set token to active
+              db.query(`UPDATE ${process.env.DBNAME}.user SET confirmation = 'active' WHERE username = ${escape(user)}`,
                   function(error: any, results: any) {
                     if (error) reject(error.sqlMessage ? error.sqlMessage : error);
 
                     // return results - we assume this will work.
                     resolve(results);
                   });
+            } else {
+              reject(Error("Token is not valid, account not activated."));
             }
+          } else {
+            reject(Error("The data is invalid."));
           }
         });
   });

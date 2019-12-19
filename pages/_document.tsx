@@ -9,15 +9,13 @@ class Doc extends Document {
   render(): JSX.Element {
     return (
       <Html>
-        <Head>
-          {/* add all icons here for app*/}
-          <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.11.2/css/all.css" />
-        </Head>
+        <Head/>
 
         <body className="portal">
           <Main />
           <NextScript />
 
+          <script src="https://kit.fontawesome.com/9f719db205.js" crossOrigin="anonymous"></script>
           <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.2.0/js/uikit.min.js"></script>
           <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.2.0/js/uikit-icons.min.js"></script>
         </body>
