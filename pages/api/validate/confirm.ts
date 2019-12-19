@@ -2,17 +2,41 @@ import db from '../../../lib/db';
 import {Request, Response} from '../../..';
 
 export default async (req: Request, res: Response): Promise<void> => {
-  const {user, token} = req.body;
+  const {user = false, token = false} = req.body;
+  console.log(user, token);
 
-  // TODO: use a page that does an API call instead of direct API call via browser as it doesn't work.
-  db.confirmEmail(user, String(token))
-      .then((result: any) => {
-        if (result && result.serverStatus === 2) {
-          res.writeHead(302, {Location: `/confirmation?user=${user}`});
-        } else {
-          res.writeHead(302, {Location: `/forbidden`});
-        }
-      }).catch((error: string) => {
-        res.send(JSON.stringify(error));
-      });
+  if (user && token) {
+    db.confirmEmail(user, token)
+        .then((result: any) => {
+          console.log("result ", result);
+
+          if (result && result === 'active') {
+            res.status(200);
+            res.send({
+              status: true,
+              message: "Account already activate.",
+            });
+          } else if (result && result.serverStatus === 2) {
+            res.status(200);
+            res.send({
+              status: true,
+              message: "Account has been activated.",
+            });
+          }
+        }).catch((error: Error) => {
+          res.status(503); // forbidden
+          res.send({
+            status: false,
+            message: error.message,
+          });
+
+          return;
+        });
+  } else {
+    res.status(503);
+    res.send({
+      status: false,
+      message: "Invalid input provided.",
+    });
+  }
 };

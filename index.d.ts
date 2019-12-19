@@ -20,4 +20,8 @@ export interface Redirects {
     };
 }
 
+export interface Notification extends UIkit.Notify {
+    notification: Function;
+  }
+
 export default class NextAuthenticate extends Component<NextAuthenticateProps> { }

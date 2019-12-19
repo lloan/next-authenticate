@@ -1,9 +1,6 @@
 import fetch from 'isomorphic-unfetch';
 import {FormEvent} from 'react';
-
-interface Notification extends UIkit.Notify {
-  notification: Function;
-}
+import notify from './utility/Notify';
 
 function Login(): JSX.Element {
   const handleLogin = (event: FormEvent) => {
@@ -43,14 +40,12 @@ function Login(): JSX.Element {
               document.location.href = "/dashboard";
             }
           } else {
-            if (document && UIkit) {
-              (UIkit as unknown as Notification).notification({
-                message: `Incorrect login, please try again.`,
-                status: 'danger',
-                pos: 'top-left',
-                timeout: 5000,
-              });
-            }
+            notify({
+              message: `Incorrect login, please try again.`,
+              status: 'danger',
+              pos: 'top-left',
+              timeout: 5000,
+            });
           }
         });
   };
@@ -68,7 +63,7 @@ function Login(): JSX.Element {
         </div>
         <div className="uk-margin">
           <div className="uk-inline uk-width-1-1">
-            <i className="uk-form-icon fa fa-lock-alt" />
+            <i className="uk-form-icon fa fa-lock" />
             <input className="uk-input uk-form-large" name="login-password" type="password"
               autoComplete="current-password" placeholder="password" required />
           </div>
