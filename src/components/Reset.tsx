@@ -1,4 +1,26 @@
-function Recovery(): JSX.Element {
+function Reset(): JSX.Element {
+  const handleReset = (e: any) => {
+    e.preventDefault();
+
+    // API route that will handle recovering password
+    const url = '/api/authenticate/reset';
+
+    fetch(url, {
+      method: 'POST',
+    }).then((response) => response.json())
+        .then((response) => {
+          const {state} = response;
+
+          if (state) {
+            if (document) {
+              document.location.href = "/reset-password";
+            }
+          }
+        }).catch((error) => {
+          console.log(error);
+        });
+  };
+
   return (
     <section className="auth-recovery">
       <h3 className="uk-text-center">Forgot your password?</h3>
@@ -11,7 +33,9 @@ function Recovery(): JSX.Element {
           </div>
         </div>
         <div className="uk-margin">
-          <button className="uk-button bg-primary black uk-button-large uk-width-1-1">Send Email</button>
+          <button className="uk-button bg-primary black uk-button-large uk-width-1-1" onClick={(event) =>
+            handleReset(event)
+          }>Send Email</button>
         </div>
         <div className="uk-text-small uk-text-center">
           <a href="#" uk-switcher-item="0">Back to login</a>
@@ -21,4 +45,4 @@ function Recovery(): JSX.Element {
   );
 }
 
-export default Recovery;
+export default Reset;

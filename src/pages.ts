@@ -5,9 +5,9 @@ const redirects: Redirects = {
   "/welcome": {redirect: "/dashboard"},
   "/confirmation": {redirect: "/dashboard"},
   "/logged-out": {redirect: "/dashboard"},
-  "/auth": {redirect: "/dashboard"},
+  "/authenticate": {redirect: "/dashboard"},
 };
 
-const unprotected: Array<string> = ["/", "/auth", "/logged-out", "/welcome", "/confirmation"];
+const unprotected: Array<string> = ["/", "/authenticate", "/logged-out", "/welcome", "/confirmation"];
 
 export {redirects, unprotected};
