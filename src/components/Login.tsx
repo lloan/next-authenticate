@@ -29,8 +29,8 @@ function Login(): JSX.Element {
       body: JSON.stringify(data),
     })
         .then((response: { json: () => any }) => response.json())
-        .then((response: { state: any }) => {
-          const {state} = response;
+        .then((response: { state: boolean; message: string }) => {
+          const {state, message} = response;
 
           // hide spinner as work is essentially done
           if (spinner) spinner.classList.add('uk-hidden');
@@ -41,7 +41,7 @@ function Login(): JSX.Element {
             }
           } else {
             notify({
-              message: `Incorrect login, please try again.`,
+              message,
               status: 'danger',
               pos: 'top-left',
               timeout: 5000,

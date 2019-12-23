@@ -14,7 +14,6 @@ db.createTable = function(tableName: string, query: any) {
   console.log(`attempting to create ${tableName} table...`);
 
   return new Promise((resolve, reject) => {
-    console.log('in promise');
     // checks if table exists in this database
     db.query(`SELECT * FROM ${process.env.DBNAME}.${tableName}`, function(error: any, results: any) {
       if (error) console.log(error.sqlMessage ? error.sqlMessage : error);
@@ -42,7 +41,7 @@ db.createTable = function(tableName: string, query: any) {
 
 db.getUser = function(user: string): object | boolean {
   return new Promise((resolve, reject) => {
-    db.query(`SELECT last_login, password FROM ${process.env.DBNAME}.user WHERE username = ${escape(user)}`,
+    db.query(`SELECT last_login, confirmation, password FROM ${process.env.DBNAME}.user WHERE username = ${escape(user)}`,
         function(error: { sqlMessage: any }, results: string | any[]) {
           if (error) reject(error.sqlMessage ? error.sqlMessage : error);
 

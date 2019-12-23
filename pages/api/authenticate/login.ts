@@ -11,11 +11,15 @@ export default async (req: Request, res: Response) => {
   // messages
   const invalid = {
     state: false,
-    message: "invalid request",
+    message: "invalid credentials",
   };
   const valid = {
     state: true,
-    message: "valid request",
+    message: "access granted",
+  };
+  const unconfirmed = {
+    state: false,
+    message: "account has not been activated",
   };
 
   // Get credentials from JSON body
@@ -33,17 +37,22 @@ export default async (req: Request, res: Response) => {
 
     // if user found, verify password matches
     if (auth.verifyPassword(password, user.password)) {
-      // password matched
+      if (user.confirmation === "active") {
+        // password matched
       // create new token
-      const token = auth.tokenize(username);
+        const token = auth.tokenize(username);
 
-      // set token in redis
-      client.setToken(username, token);
+        // set token in redis
+        client.setToken(username, token);
 
-      // set HttpOnly cookie
-      res.setHeader('Set-Cookie', [`portal-token=${token}; HttpOnly`, `portal-user=${username}; HttpOnly`]);
-      res.send(valid);
-      return true;
+        // set HttpOnly cookie
+        res.setHeader('Set-Cookie', [`portal-token=${token}; HttpOnly`, `portal-user=${username}; HttpOnly`]);
+        res.send(valid);
+        return true;
+      } else {
+        res.send(unconfirmed);
+        return false;
+      }
     } else {
       // let user know this was an invalid request
       res.send(invalid);

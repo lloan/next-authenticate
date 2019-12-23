@@ -38,7 +38,7 @@ export default async (req: Request, res: Response): Promise<void> => {
   res.setHeader("Content-Type", "json/javascript");
 
   const {action, username, email, data} = req.body;
-  console.log(action, username, email, data);
+
   if (!action || !username || !email) {
     res.status(400);
     res.send({
@@ -56,7 +56,6 @@ export default async (req: Request, res: Response): Promise<void> => {
 
   transporter.sendMail(mailOptions, (err: any, info: string) => {
     if (err) {
-      console.log(err);
       res.send({
         state: false,
         message: "Email failed.",

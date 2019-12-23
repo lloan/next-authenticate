@@ -16,7 +16,6 @@ function Confirmation(props: any) {
   const [confirmation, setConfirmation] = useState(undefined);
 
   useEffect(() => {
-    console.log(user, token);
     if (user && token) {
       fetch(url, {
         method: 'POST',
@@ -61,8 +60,6 @@ function Confirmation(props: any) {
               pos: 'top-left',
               timeout: 5000,
             });
-
-            console.log(error);
           });
     }
   }, []);

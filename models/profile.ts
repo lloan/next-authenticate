@@ -1,6 +1,4 @@
 const profile = async (db: {[props: string]: Function}) => {
-  console.log('profile called');
-
   const query = `CREATE TABLE ${process.env.DBNAME}.profile ( 
   id INT NOT NULL, 
   status INT NULL, 
