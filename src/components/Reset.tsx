@@ -28,7 +28,7 @@ function Reset(): JSX.Element {
       <form>
         <div className="uk-margin">
           <div className="uk-inline uk-width-1-1">
-            <span className="uk-form-icon" uk-icon="icon: mail" />
+            <i className="uk-form-icon fa fa-envelope"/>
             <input className="uk-input uk-form-large" type="text" placeholder="Email address" />
           </div>
         </div>

@@ -14,7 +14,7 @@ function Home(): JSX.Element {
           />
           <section className="uk-padding">
             <p>Home</p>
-            <Link href="/auth">
+            <Link href="/authenticate">
               <button className="uk-button">Log in</button>
             </Link>
           </section>

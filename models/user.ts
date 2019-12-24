@@ -8,6 +8,7 @@ const user = async (db: any) => {
     role VARCHAR(45) NOT NULL, 
     last_login DATETIME NOT NULL DEFAULT now(), 
     confirmation VARCHAR(50) NOT NULL, 
+    password_reset TINYINT NOT NULL DEFAULT 0,
     creation_date DATETIME NOT NULL DEFAULT now(), 
     PRIMARY KEY (id), 
     UNIQUE INDEX id_UNIQUE (id ASC), 
