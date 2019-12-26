@@ -26,7 +26,7 @@ export default class MyApp extends App {
     const redirect = redirects[pathname] ? redirects[pathname].redirect : false;
     const isPublic = unprotected.includes(pathname);
 
-    fetch(`http://localhost:3000/api/authenticate/auth`, {
+    fetch(`${process.env.HOST}api/authenticate/auth`, {
       method: 'POST',
     })
         .then((res) => res.json())
