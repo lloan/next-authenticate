@@ -64,6 +64,7 @@ function ResetPassword(props: any) {
     }
   }, []);
 
+  // only render page if user, token found in query
   if (props.query.hasOwnProperty('user') && props.query.hasOwnProperty('token')) {
     return (
       <main>
