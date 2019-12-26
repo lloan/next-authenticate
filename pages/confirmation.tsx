@@ -39,7 +39,7 @@ function Confirmation(props: any) {
 
               setTimeout(() => {
                 if (document) {
-                  document.location.href = "/auth";
+                  document.location.href = "/authenticate";
                 }
               }, 2500);
             } else {
