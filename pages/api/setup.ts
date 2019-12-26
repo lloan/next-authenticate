@@ -1,14 +1,14 @@
 import db from "../../lib/db";
-import {Response, Request} from "../../index";
+import {Response, Request, Message} from "../../index";
 import {error} from "next/dist/build/output/log";
 const root = require("app-root-path");
 const fs = require("fs");
 
-interface Model {
-    [property: string]: any;
+interface StoreModel {
+    [property: string]: {};
 }
 
-type Message = Model
+type Messages = StoreModel;
 
 // Setup database tables if they don't exist.
 export default async (req: Request, res: Response) => {
@@ -18,7 +18,7 @@ export default async (req: Request, res: Response) => {
   if (secret !== undefined && process.env.SECRET === secret) {
     // Promise based
     new Promise((resolve, reject) => {
-      const models: Model = {}; // temporary store for all models
+      const models: Messages = {}; // temporary store for all models
 
       // Iterate through file directory and find models
       fs.readdirSync(root + "/models") // directory to read
@@ -31,14 +31,14 @@ export default async (req: Request, res: Response) => {
       // if models found, resolve, reject if nothing found
       models.length === 0 ? reject(error) : resolve(models);
     })
-        .then((models: any) => {
-          const messages: Message = {}; // temporary message store
+        .then((data: any) => {
+          const messages: Messages = {}; // temporary message store
 
           // iterate through all models found
-          for (const model in models) {
+          for (const model in data) {
           // model should have a main function with same name to trigger its creation
-            if (models.hasOwnProperty(model)) {
-              messages[model] = models[model](db); // save result to the message store
+            if (data.hasOwnProperty(model)) {
+              messages[model] = data[model](db) as Message; // save result to the message store
             }
           }
 
@@ -53,7 +53,8 @@ export default async (req: Request, res: Response) => {
     // secret did not match, let user know they're not authorized to run setup
     res.status(400);
     res.send({
+      status: false,
       message: "not authorized...",
-    });
+    } as Message);
   }
 };

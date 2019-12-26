@@ -1,3 +1,5 @@
+import {Message} from "..";
+
 const escape = require('sql-string-escape');
 const bcrypt = require('bcryptjs');
 const mysql = require('mysql');
@@ -26,14 +28,20 @@ db.createTable = function(tableName: string, query: any) {
         db.query(query, function(error: { sqlMessage: any }) {
           if (error) reject(error.sqlMessage ? error.sqlMessage : error);
 
-          resolve({
+          console.log({
+            status: true,
             message: `...${tableName} table created!`,
-          });
+          } as Message);
+
+          resolve(true);
         });
       } else {
-        resolve({
+        console.log({
+          status: false,
           message: `${tableName} table already exists!`,
-        });
+        } as Message);
+
+        resolve(false);
       }
     });
   });
