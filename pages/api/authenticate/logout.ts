@@ -1,4 +1,4 @@
-import {Request, Response} from '../../..';
+import {Request, Response, Message} from '../../..';
 
 export default async (_req: Request, res: Response) => {
   // set headers
@@ -7,7 +7,7 @@ export default async (_req: Request, res: Response) => {
   res.status(200);
 
   res.send({
-    state: true,
+    status: true,
     message: "You have been logged out.",
-  });
+  } as Message);
 };

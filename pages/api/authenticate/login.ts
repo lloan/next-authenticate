@@ -1,7 +1,7 @@
 import db from '../../../lib/db';
 import auth from '../../../lib/auth';
 import client from '../../../lib/redis';
-import {Response, Request} from '../../..';
+import {Response, Request, Message} from '../../..';
 
 export default async (req: Request, res: Response) => {
   // set headers
@@ -10,17 +10,17 @@ export default async (req: Request, res: Response) => {
 
   // messages
   const invalid = {
-    state: false,
+    status: false,
     message: "invalid credentials",
-  };
+  } as Message;
   const valid = {
-    state: true,
+    status: true,
     message: "access granted",
-  };
+  } as Message;
   const unconfirmed = {
-    state: false,
+    status: false,
     message: "account has not been activated",
-  };
+  } as Message;
 
   // Get credentials from JSON body
   const {username, password} = req.body;

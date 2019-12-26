@@ -1,5 +1,5 @@
 import db from '../../../lib/db';
-import {Request, Response} from '../../..';
+import {Request, Response, Message} from '../../..';
 
 export default async (req: Request, res: Response): Promise<void> => {
   const {user = false, token = false} = req.body;
@@ -8,32 +8,26 @@ export default async (req: Request, res: Response): Promise<void> => {
     db.confirmEmail(user, token)
         .then((result: any) => {
           if (result && result === 'active') {
-            res.status(200);
             res.send({
               status: true,
               message: "Account already activate.",
-            });
+            } as Message);
           } else if (result && result.serverStatus === 2) {
-            res.status(200);
             res.send({
               status: true,
               message: "Account has been activated.",
-            });
+            } as Message);
           }
         }).catch((error: Error) => {
-          res.status(503); // forbidden
           res.send({
             status: false,
             message: error.message,
-          });
-
-          return;
+          } as Message);
         });
   } else {
-    res.status(503);
     res.send({
       status: false,
       message: "Invalid input provided.",
-    });
+    } as Message);
   }
 };

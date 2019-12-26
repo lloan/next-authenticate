@@ -12,6 +12,7 @@ function Reset(): JSX.Element {
           const {state} = response;
 
           if (state) {
+            // TODO: update view to show that password has been sent
             if (document) {
               document.location.href = "/reset-password";
             }

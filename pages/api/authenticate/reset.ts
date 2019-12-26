@@ -1,7 +1,7 @@
 import db from '../../../lib/db';
 import auth from '../../../lib/auth';
 import client from '../../../lib/redis';
-import {Response, Request} from '../../..';
+import {Response, Request, Message} from '../../..';
 
 export default async (req: Request, res: Response) => {
   // set headers
@@ -10,13 +10,13 @@ export default async (req: Request, res: Response) => {
 
   // messages
   const invalid = {
-    state: false,
+    status: false,
     message: "request denied",
-  };
+  } as Message;
   const valid = {
-    state: true,
+    status: true,
     message: "request submitted",
-  };
+  } as Message;
 
   // Get credentials from JSON body
   const {email} = req.body;
@@ -24,18 +24,10 @@ export default async (req: Request, res: Response) => {
   if (email) {
     // get the user - initial check
     db.getUserByEmail(escape(email)).then((user: any) => {
-      res.status(200);
-
-      // if user is not found, return early
-      if (!user) {
-        res.send(invalid);
-        return false;
-      }
-
+      res.send(!user ? invalid : valid);
       console.log(user);
     });
   } else {
     res.send(invalid);
-    return false;
   }
 };
