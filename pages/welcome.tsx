@@ -14,7 +14,7 @@ function Welcome(): JSX.Element {
               Confirm that you received the email and then try logging in to
               your account.
           </p>
-          <Link href="/auth">
+          <Link href="/authenticate">
             <a>
                 Go to Log In page
             </a>

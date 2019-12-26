@@ -66,7 +66,7 @@ export default class MyApp extends App {
       } else if (!access) {
         return <Unauthorized/>;
       } else {
-        this.redirect("/auth");
+        this.redirect("/authenticate");
 
         return <Redirect/>;
       }

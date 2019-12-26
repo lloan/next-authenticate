@@ -39,7 +39,7 @@ function ResetPassword(props: any) {
 
               setTimeout(() => {
                 if (document) {
-                  document.location.href = "/auth";
+                  document.location.href = "/authenticate";
                 }
               }, 2500);
             } else {
@@ -96,7 +96,7 @@ function ResetPassword(props: any) {
   } else {
     setTimeout(()=> {
       if (document) {
-        document.location.href = "/auth";
+        document.location.href = "/authenticate";
       }
     }, 2500);
     return (
