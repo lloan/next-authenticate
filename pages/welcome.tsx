@@ -8,7 +8,7 @@ function Welcome(): JSX.Element {
           <h1 className="primary">Thank You</h1>
           <p className="uk-text-bolder">We appreciate your interest.</p>
           <p className="subtitle-text">
-              You will be receiving a confirmation email short.
+              You will be receiving a confirmation email shortly.
           </p>
           <p>
               Confirm that you received the email and then try logging in to
