@@ -23,7 +23,8 @@ function Reset(): JSX.Element {
 
           if (status) {
             // TODO: update view to show that password has been sent
-            console.log(status);
+            console.log("update view - password token has been set");
+            // TODO: send email to reset password
           }
         }).catch((error) => {
           console.log(error);
