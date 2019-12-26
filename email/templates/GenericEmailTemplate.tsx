@@ -2,8 +2,8 @@ import React from "react";
 import mailCSS from "../CSS";
 import Footer from "../partials/footer";
 
-function GenericEmailTemplate(props: {content: JSX.Element}) {
-  const {content} = props;
+function GenericEmailTemplate(props: {content: JSX.Element; title: string}) {
+  const {content, title} = props;
   return (
     <html>
       <head>
@@ -19,7 +19,7 @@ function GenericEmailTemplate(props: {content: JSX.Element}) {
       <body style={{margin: 0, padding: '0 !important', backgroundColor: '#ffffff'}}>
         <div style={{width: '100%', backgroundColor: '#ffffff'}}>
           <div style={{display: 'none', fontSize: '1px', lineHeight: '1px', maxHeight: '0px', maxWidth: '0px', opacity: 0, overflow: 'hidden', fontFamily: 'sans-serif'}}>
-          Email confirmation.
+            {title}
           </div>
           <div style={{display: 'none', fontSize: '1px', lineHeight: '1px', maxHeight: '0px', maxWidth: '0px', opacity: 0, overflow: 'hidden', fontFamily: 'sans-serif'}}>
           ‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;

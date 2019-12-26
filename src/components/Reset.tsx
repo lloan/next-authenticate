@@ -4,18 +4,26 @@ function Reset(): JSX.Element {
 
     // API route that will handle recovering password
     const url = '/api/authenticate/reset';
+    const email = document.getElementById('email') as HTMLInputElement;
+    const data = {
+      email: email.value,
+    };
+
 
     fetch(url, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
     }).then((response) => response.json())
         .then((response) => {
-          const {state} = response;
+          console.log(response);
+          const {status} = response;
 
-          if (state) {
+          if (status) {
             // TODO: update view to show that password has been sent
-            if (document) {
-              document.location.href = "/reset-password";
-            }
+            console.log(status);
           }
         }).catch((error) => {
           console.log(error);
@@ -30,7 +38,7 @@ function Reset(): JSX.Element {
         <div className="uk-margin">
           <div className="uk-inline uk-width-1-1">
             <i className="uk-form-icon fa fa-envelope"/>
-            <input className="uk-input uk-form-large" type="text" placeholder="Email address" />
+            <input id="email" className="uk-input uk-form-large" type="text" placeholder="Email address" />
           </div>
         </div>
         <div className="uk-margin">

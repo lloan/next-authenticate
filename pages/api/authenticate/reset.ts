@@ -3,7 +3,7 @@ import auth from '../../../lib/auth';
 import client from '../../../lib/redis';
 import {Response, Request, Message} from '../../..';
 
-export default async (req: Request, res: Response) => {
+export default (req: Request, res: Response) => {
   // set headers
   res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
   res.setHeader("Content-Type", "json/javascript");
@@ -19,16 +19,23 @@ export default async (req: Request, res: Response) => {
   } as Message;
 
   // Get credentials from JSON body
-  const {email} = req.body;
+  const {email, token} = req.body;
 
   if (email) {
-    // get the user - initial check
     db.getUserByEmail(escape(email))
         .then((user: any) => {
-          db.initiatePasswordReset(escape(user.username))
-              .then((data: any) => {
-                res.send(data.serverStatus === 2 ? valid : invalid);
-              });
+          if (token) {
+            db.resetPassword(escape(email), escape(token))
+                .then((data: any) => {
+                  console.log(data);
+                  res.send(data);
+                });
+          } else {
+            db.initiatePasswordReset(escape(user.username), escape(email))
+                .then((data: any) => {
+                  res.send(data.serverStatus === 2 ? valid : invalid);
+                });
+          }
         });
   } else {
     res.send(invalid);

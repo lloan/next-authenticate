@@ -28,6 +28,7 @@ const handleAction = (options: { action: string; username: string; data?: any })
           username,
           url: (process as any).env.HOST,
           token: data.token,
+          title: "Comfirm your email.",
         })),
       };
     case "reset":
@@ -37,6 +38,7 @@ const handleAction = (options: { action: string; username: string; data?: any })
           username,
           url: (process as any).env.HOST,
           token: data.token,
+          title: "Reset your password.",
         })),
       };
   }

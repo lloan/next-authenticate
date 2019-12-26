@@ -1,4 +1,5 @@
 import {Message} from "..";
+import fetch from "isomorphic-unfetch";
 
 const escape = require('sql-string-escape');
 const bcrypt = require('bcryptjs');
@@ -160,13 +161,34 @@ db.confirmEmail = function(user: string, token: string): Promise<boolean> {
   });
 };
 
-db.initiatePasswordReset = function(user: string): Promise<boolean> {
+db.initiatePasswordReset = function(user: string, email: string): Promise<boolean> {
   const token: string = bcrypt.genSaltSync(16); // generates a token for password_token column.
 
   return new Promise((resolve, reject) => {
     db.query(`UPDATE ${process.env.DBNAME}.user SET password_reset = 1, password_token = '${token}' WHERE username = ${escape(user)}`,
         function(error: any, results: any) {
           if (error) reject(error.sqlMessage ? error.sqlMessage : error);
+
+          const data = {
+            action: 'reset',
+            data: {
+              token,
+            },
+            username: user,
+            email,
+          };
+
+          fetch(`${process.env.HOST}api/mail`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          })
+              .then((res) => res.json())
+              .then((data) => {
+                console.log(data);
+              });
 
           // return results - we assume this will work.
           resolve(results);

@@ -113,7 +113,7 @@ function Signup(): JSX.Element {
     handleToggle(check, 'uk-hidden', 'add');
 
     // API route that will handle signing in
-    const url = `/api/validate/user?secret=${process.env.SECRET}`;
+    const url = `/api/validate/user`;
 
     fetch(url, headers({username}))
         .then((response) => response.json())
@@ -149,7 +149,7 @@ function Signup(): JSX.Element {
     handleToggle(check, 'uk-hidden', 'add');
 
     // API route that will handle signing in
-    const url = `/api/validate/email?secret=${process.env.SECRET}`;
+    const url = `/api/validate/email`;
 
     fetch(url, headers({email}))
         .then((response) => response.json())
