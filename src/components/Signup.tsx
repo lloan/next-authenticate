@@ -63,8 +63,6 @@ function Signup(): JSX.Element {
         })))
             .then((response) => response.json())
             .then((response) => {
-              if (spinner) spinner.classList.add('uk-hidden');
-
               if (response.serverStatus && response.serverStatus === 2) {
                 fetch('/api/mail', headers(Object.assign(data, {
                   action: 'confirm',
@@ -74,6 +72,8 @@ function Signup(): JSX.Element {
                 })))
                     .then((response) => response.json())
                     .then((response) => {
+                      if (spinner) spinner.classList.add('uk-hidden');
+
                       if (response && response.state) {
                         document.location.href = `/welcome?user=${username.value}`;
                         setMessage({

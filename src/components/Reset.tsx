@@ -5,6 +5,11 @@ function Reset(): JSX.Element {
     // API route that will handle recovering password
     const url = '/api/authenticate/reset';
     const email = document.getElementById('email') as HTMLInputElement;
+    const spinner: HTMLElement | null = document.getElementById('spinner');
+
+    // show spinner while working
+    if (spinner) spinner.classList.remove('uk-hidden');
+
     const data = {
       email: email.value,
     };
@@ -18,8 +23,10 @@ function Reset(): JSX.Element {
       body: JSON.stringify(data),
     }).then((response) => response.json())
         .then((response) => {
-          console.log(response);
           const {status} = response;
+
+          // hide spinner as work is essentially done
+          if (spinner) spinner.classList.add('uk-hidden');
 
           if (status) {
             // TODO: update view to show that password has been sent
