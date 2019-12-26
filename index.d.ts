@@ -1,5 +1,8 @@
 import {Component} from "react";
 
+export interface CreateTable {
+    createTable: (TableName: string, Query: string) => Function;
+}
 export interface Message {
     status: boolean;
     message: string;
