@@ -11,6 +11,7 @@ const user = async (db: CreateTable) => {
     last_login DATETIME NOT NULL DEFAULT now(), 
     confirmation VARCHAR(50) NOT NULL, 
     password_reset TINYINT NOT NULL DEFAULT 0,
+    password_token VARCHAR(255),
     creation_date DATETIME NOT NULL DEFAULT now(), 
     PRIMARY KEY (id), 
     UNIQUE INDEX id_UNIQUE (id ASC), 

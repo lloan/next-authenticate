@@ -23,10 +23,13 @@ export default async (req: Request, res: Response) => {
 
   if (email) {
     // get the user - initial check
-    db.getUserByEmail(escape(email)).then((user: any) => {
-      res.send(!user ? invalid : valid);
-      console.log(user);
-    });
+    db.getUserByEmail(escape(email))
+        .then((user: any) => {
+          db.initiatePasswordReset(escape(user.username))
+              .then((data: any) => {
+                res.send(data.serverStatus === 2 ? valid : invalid);
+              });
+        });
   } else {
     res.send(invalid);
   }
