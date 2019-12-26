@@ -1,3 +1,5 @@
+import notify from './utility/Notify';
+
 function Reset(): JSX.Element {
   const handleReset = (e: any) => {
     e.preventDefault();
@@ -29,9 +31,18 @@ function Reset(): JSX.Element {
           if (spinner) spinner.classList.add('uk-hidden');
 
           if (status) {
-            // TODO: update view to show that password has been sent
-            console.log("update view - password token has been set");
-            // TODO: send email to reset password
+            notify({
+              message: "Request submitted.",
+              status: 'success',
+              pos: 'top-left',
+              timeout: 5000,
+            });
+
+            if ((process as any).browser && document && UIkit) {
+              setTimeout(()=>{
+                document.location.href = "/reset-password";
+              }, 1500);
+            }
           }
         }).catch((error) => {
           console.log(error);
