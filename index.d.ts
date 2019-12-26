@@ -1,5 +1,10 @@
 import {Component} from "react";
 
+export interface Message {
+    status: boolean;
+    message: string;
+}
+
 export interface Request {
     body: {
         [property: string]: string;
