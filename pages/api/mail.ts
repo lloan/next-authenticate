@@ -1,5 +1,6 @@
 import ReactDOMServer from 'react-dom/server';
 import confirmationEmail from './../../email/templates/main/confirmationEmail';
+import resetPasswordEmail from './../../email/templates/main/resetPasswordEmail';
 import {Request, Response} from '../..';
 
 const nodemailer = require('nodemailer');
@@ -24,6 +25,15 @@ const handleAction = (options: { action: string; username: string; data?: any })
       return {
         subject: "Confirm your email.",
         html: ReactDOMServer.renderToStaticMarkup(confirmationEmail( {
+          username,
+          url: (process as any).env.HOST,
+          token: data.token,
+        })),
+      };
+    case "reset":
+      return {
+        subject: "Reset your password.",
+        html: ReactDOMServer.renderToStaticMarkup(resetPasswordEmail( {
           username,
           url: (process as any).env.HOST,
           token: data.token,
