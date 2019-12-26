@@ -13,35 +13,37 @@ const db = mysql.createConnection({
 });
 
 db.createTable = function(tableName: string, query: any) {
-  console.log(`attempting to create ${tableName} table...`);
+  console.log(`\nAttempting to create ${tableName} table...`);
 
   return new Promise((resolve, reject) => {
     // checks if table exists in this database
     db.query(`SELECT * FROM ${process.env.DBNAME}.${tableName}`, function(error: any, results: any) {
-      if (error) console.log(error.sqlMessage ? error.sqlMessage : error);
+      if (error) console.log('Error found: ', error.sqlMessage ? error.sqlMessage : error);
 
       // if table exists
       if (results === undefined) {
-        console.log(`creating ${tableName} table...`);
+        console.log(`Creating ${tableName} table...`);
 
         // create the table using query passed in
         db.query(query, function(error: { sqlMessage: any }) {
           if (error) reject(error.sqlMessage ? error.sqlMessage : error);
 
-          console.log({
+          resolve({
             status: true,
-            message: `...${tableName} table created!`,
+            message: `${tableName} table creation successful.`,
           } as Message);
 
-          resolve(true);
+          console.log(`${tableName} table creation completed!\n`);
+
+          return true;
         });
       } else {
-        console.log({
+        resolve({
           status: false,
-          message: `${tableName} table already exists!`,
+          message: `${tableName} table already exists.`,
         } as Message);
 
-        resolve(false);
+        return false;
       }
     });
   });

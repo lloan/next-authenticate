@@ -11,7 +11,7 @@ interface StoreModel {
 type Messages = StoreModel;
 
 // Setup database tables if they don't exist.
-export default async (req: Request, res: Response) => {
+export default (req: Request, res: Response) => {
   const {secret} = req.query; // secret key from user requesting setup
 
   // check if secret given matches one in this environment
@@ -31,27 +31,28 @@ export default async (req: Request, res: Response) => {
       // if models found, resolve, reject if nothing found
       models.length === 0 ? reject(error) : resolve(models);
     })
-        .then((data: any) => {
+        .then(async (data: any) => {
           const messages: Messages = {}; // temporary message store
 
           // iterate through all models found
           for (const model in data) {
           // model should have a main function with same name to trigger its creation
             if (data.hasOwnProperty(model)) {
-              messages[model] = data[model](db) as Message; // save result to the message store
+              messages[model] = await data[model](db) as Message; // save result to the message store
             }
           }
 
-          res.status(200); // send a positive status
-          res.send(messages); // send all messages as an object in response
+          return await messages;
+        })
+        .then((data) => {
+          console.log('All models processed.');
+          res.send(data); // send all messages as an object in response
         })
         .catch((error) => {
-          res.status(400); // send negative status
           res.send(error); // send error found in response
         });
   } else {
     // secret did not match, let user know they're not authorized to run setup
-    res.status(400);
     res.send({
       status: false,
       message: "not authorized...",
