@@ -1,6 +1,6 @@
 import React from "react";
 import mailCSS from "../CSS";
-import Footer from "../partials/footer";
+import Footer from "../partials/Footer";
 
 function GenericEmailTemplate(props: {content: JSX.Element; title: string}) {
   const {content, title} = props;

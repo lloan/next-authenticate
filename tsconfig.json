@@ -6,6 +6,7 @@
     "allowSyntheticDefaultImports": true,
     "types": [
       "node",
+      "next",
       "UIkit"
     ],
     "lib": [
