@@ -1,7 +1,7 @@
-import {NextSeo} from "next-seo";
-import {useEffect, useState} from 'react';
-import notify from "../src/components/utility/Notify";
 import Redirect from "../src/components/animation/Redirect";
+import {NextSeo} from "next-seo";
+import {useState, useEffect} from "react";
+import notify from "../src/components/utility/Notify";
 
 /**
  * Check provided input - reset account password if valid.
@@ -10,21 +10,21 @@ import Redirect from "../src/components/animation/Redirect";
  */
 function ResetPassword(props: any) {
   const {query} = props;
-  const {user, token} = query;
-  const url = '/api/authenticate/';
-
+  const {user, token, email, action} = query;
+  const url = 'api/authenticate/reset';
   const [confirmation, setConfirmation] = useState(undefined);
 
   useEffect(() => {
-    if (user && token) {
+    console.log(action);
+    if (user && token && email && confirmation === undefined) {
       fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          user,
-          token,
+          ...query,
+          action: "verify",
         }),
       })
           .then((response) => response.json())
@@ -36,12 +36,6 @@ function ResetPassword(props: any) {
                 pos: 'top-left',
                 timeout: 5000,
               });
-
-              setTimeout(() => {
-                if (document) {
-                  document.location.href = "/authenticate";
-                }
-              }, 2500);
             } else {
               notify({
                 message: response.message,
@@ -72,12 +66,8 @@ function ResetPassword(props: any) {
           <div className="uk-container" >
             {confirmation &&
           (<div>
-            <NextSeo
-              title={ user ? `${user} - account confirmed!` : `Account confirmed!`}
-            />
-            <section id="authorized" className="uk-padding">
-              <img src="/images/illustrations/access-granted.gif" alt="access granted" />
-            </section>
+           reset password form
+            {/* // TODO: Create a form and function to handle submission of a new password since we're verified */}
           </div>)
             }
             {!confirmation &&

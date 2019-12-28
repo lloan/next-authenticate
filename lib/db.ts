@@ -31,9 +31,14 @@ db.getUserByEmail = function(email: string): object | boolean {
     db.query(`SELECT username, password_reset FROM ${process.env.DBNAME}.user WHERE email = ${escape(email)}`,
         function(error: { sqlMessage: any }, results: string | any[]) {
           if (error) reject(error.sqlMessage ? error.sqlMessage : error);
+          const status = results.length !== 0;
 
           // returns only the first user it finds - assumes it will only have one to choose from
-          resolve(results.length !== 0 ? results[0] : false);
+          resolve({
+            status,
+            message: status ? "User found." : "User not found.",
+            data: status ? {...results[0]} : false,
+          });
         });
   });
 };
@@ -50,10 +55,14 @@ db.userExists = function(user: string): Promise<object> {
   });
 };
 
+db.createPassword = function(pass: string): string {
+  const salt: string = bcrypt.genSaltSync(10);
+  return bcrypt.hashSync(pass, salt);
+};
+
 db.createUser = function(user: string, pass: string, email: string, role: string): Promise<object> {
   return new Promise((resolve, reject) => {
-    const salt: string = bcrypt.genSaltSync(10);
-    const hash: string = bcrypt.hashSync(pass, salt);
+    const hash: string = db.createPassword(pass);
     const token: string = bcrypt.genSaltSync(16); // will be used to confirm email - set to false after confirmation
     db.query(`INSERT INTO iesd_portal.user (username, password, email, role, confirmation) VALUES ('${user}', '${hash}', '${email}', '${role}', '${token}')`,
         function(error: { sqlMessage: any }, results: object) {
@@ -129,6 +138,7 @@ db.emailConfirmed = function(user: string): Promise<boolean> {
 };
 
 db.confirmEmail = function(user: string, token: string): Promise<boolean> {
+  console.log(user, token);
   return new Promise((resolve, reject) => {
     // Get current confirmation token from the DB for user in question
     db.query(`SELECT confirmation FROM ${process.env.DBNAME}.user WHERE username = ${escape(user)}`,
@@ -161,7 +171,7 @@ db.confirmEmail = function(user: string, token: string): Promise<boolean> {
   });
 };
 
-db.initiatePasswordReset = function(user: string, email: string): Promise<boolean> {
+db.initiatePasswordReset = function(user: string, email: string): Promise<Message> {
   const token: string = bcrypt.genSaltSync(16); // generates a token for password_token column.
 
   return new Promise((resolve, reject) => {
@@ -187,12 +197,59 @@ db.initiatePasswordReset = function(user: string, email: string): Promise<boolea
           })
               .then((res) => res.json())
               .then((data) => {
-                console.log(data);
-              });
+                console.log(data); // for debugging
 
-          // return results - we assume this will work.
-          resolve(results);
+                // return results - we assume this will work.
+                resolve({
+                  status: results.serverStatus === 2,
+                  message: results.serverStatus === 2 ? "request submitted" : "request denied",
+                } as Message);
+              });
         });
   });
 };
+
+db.verifyPasswordToken = function(email: string, token: string): Promise<Message> {
+  return new Promise((resolve, reject) => {
+    db.query(`SELECT password_token FROM ${process.env.DBNAME}.user WHERE email = ${escape(email)}`,
+        function(error: any, results: any) {
+          if (error) reject(error.sqlMessage ? error.sqlMessage : error);
+          const processedToken = token.replace(/%24/g, "$"); // TODO: Find better way to decode %24 to $
+          const status = results.length !== 0 && results[0].password_token === processedToken;
+
+          resolve({
+            status,
+            message: status ? "Token matched." : "Token did not match",
+          } as Message);
+
+          return true;
+        });
+  });
+};
+
+db.passwordReset = function(user: string, token: string, password: string): Promise<Message> {
+  return new Promise((resolve, reject) => {
+    const pass: string = db.createPassword(password); // create new password using new password
+
+    // update password_reset, password_token, password
+    // find user by username and password_token
+    db.query(`
+    UPDATE ${process.env.DBNAME}.user 
+    SET password_reset = 0, password_token = '', password = ${escape(pass)} 
+    WHERE username = ${escape(user)} 
+    AND password_token = ${escape(token)}`,
+    function(error: any, results: any) {
+      if (error) reject(error.sqlMessage ? error.sqlMessage : error);
+      if (results !== undefined) {
+        const status = (results.serverStatus === 2 && results.changedRows !== 0) as boolean;
+
+        resolve({
+          status,
+          message: status ? "Password reset request processed." : "Password reset unsuccessful.",
+        } as Message);
+      }
+    });
+  });
+};
+
 export default db;

@@ -16,8 +16,8 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const handleAction = (options: { action: string; username: string; data?: any }) => {
-  const {action, username, data} = options;
+const handleAction = (options: { action: string; username: string; email: string; data?: any }) => {
+  const {action, username, email, data} = options;
 
   // handle the action requested
   switch (action) {
@@ -36,6 +36,7 @@ const handleAction = (options: { action: string; username: string; data?: any })
         subject: "Reset your password.",
         html: ReactDOMServer.renderToStaticMarkup(resetPasswordEmail( {
           username,
+          email,
           url: (process as any).env.HOST,
           token: data.token,
           title: "Reset your password.",
@@ -63,7 +64,7 @@ export default async (req: Request, res: Response): Promise<void> => {
   const mailOptions= Object.assign({
     from: '"Administrator" <admin@iesd.com>',
     to: String(email),
-  }, handleAction({action, username, data}));
+  }, handleAction({action, username, email, data}));
 
 
   transporter.sendMail(mailOptions, (err: any, info: string) => {
