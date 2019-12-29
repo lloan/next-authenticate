@@ -2,6 +2,8 @@ import Redirect from "../src/components/animation/Redirect";
 import {NextSeo} from "next-seo";
 import {useState, useEffect} from "react";
 import notify from "../src/components/utility/Notify";
+import Password from "../src/components/authenticate/Password";
+import Link from "next/link";
 
 /**
  * Check provided input - reset account password if valid.
@@ -68,16 +70,27 @@ function ResetPassword(props: any) {
           (<div>
            reset password form
             {/* // TODO: Create a form and function to handle submission of a new password since we're verified */}
+            <Password/>
           </div>)
             }
             {!confirmation &&
-        <div>
-          <NextSeo
-            title="Confirm your account."
-          />
-          <section id="unauthorized" className="uk-padding">
-            <img src="/images/illustrations/forbidden.gif" alt="access not granted" />
-          </section>
+        <div className="uk-grid uk-flex-middle">
+          <div>
+            <h1 className="primary">Password Reset</h1>
+            <p className="uk-text-bolder">Check your email.</p>
+            <p className="subtitle-text">
+                You should have received an email to verify your password reset request.
+            </p>
+            <p>
+                Confirm that you received the email and then try logging in to
+                your account with your new password.
+            </p>
+            <Link href="/authenticate">
+              <a>
+                  Go to Log In page
+              </a>
+            </Link>
+          </div>
         </div>
             }
           </div>

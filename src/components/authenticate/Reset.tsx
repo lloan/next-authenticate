@@ -1,10 +1,10 @@
-import notify from './utility/Notify';
+import notify from '../utility/Notify';
 
 function Reset(): JSX.Element {
   const handleReset = (e: any) => {
     e.preventDefault();
 
-    // API route that will handle recovering password
+    // API route that will handle initiating password reset process.
     const url = '/api/authenticate/reset';
     const email = document.getElementById('email') as HTMLInputElement;
     const spinner: HTMLElement | null = document.getElementById('spinner');
@@ -14,8 +14,8 @@ function Reset(): JSX.Element {
 
     const data = {
       email: email.value,
+      action: "initiate",
     };
-
 
     fetch(url, {
       method: 'POST',
@@ -37,12 +37,6 @@ function Reset(): JSX.Element {
               pos: 'top-left',
               timeout: 5000,
             });
-
-            if ((process as any).browser && document && UIkit) {
-              setTimeout(()=>{
-                document.location.href = "/reset-password";
-              }, 1500);
-            }
           }
         }).catch((error) => {
           console.log(error);

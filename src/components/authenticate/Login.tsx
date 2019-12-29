@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-unfetch';
 import {FormEvent} from 'react';
-import notify from './utility/Notify';
+import notify from '../utility/Notify';
 
 function Login(): JSX.Element {
   const handleLogin = (event: FormEvent) => {
