@@ -25,19 +25,16 @@ function Reset(): JSX.Element {
       body: JSON.stringify(data),
     }).then((response) => response.json())
         .then((response) => {
-          const {status} = response;
-
+          const {status, message} = response;
           // hide spinner as work is essentially done
           if (spinner) spinner.classList.add('uk-hidden');
 
-          if (status) {
-            notify({
-              message: "Request submitted.",
-              status: 'success',
-              pos: 'top-left',
-              timeout: 5000,
-            });
-          }
+          notify({
+            message,
+            status: status ? 'success' : 'danger',
+            pos: 'top-left',
+            timeout: 5000,
+          });
         }).catch((error) => {
           console.log(error);
         });

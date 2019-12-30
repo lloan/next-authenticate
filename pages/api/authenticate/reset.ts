@@ -20,17 +20,26 @@ export default (req: Request, res: Response): void => {
         });
   }
 
-  function handlePasswordResetInitiation() {
+  function handlePasswordResetInitiation(message: any) {
+    const user = message.data.username;
+
     // will send email to user, starting the process
     // will also update two columns for user - password_token, password_reset
-    db.initiatePasswordReset(escape(user), escape(email))
-        .then((data: Message) => {
-          res.send(data);
-          console.log(data);
-        })
-        .catch((error: Error) => {
-          console.log(error);
-        });
+    if (user !== undefined) {
+      db.initiatePasswordReset(escape(user), escape(email))
+          .then((data: Message) => {
+            res.send(data);
+            console.log(data);
+          })
+          .catch((error: Error) => {
+            console.log(error);
+          });
+    } else {
+      res.send({
+        status: false,
+        message: "Invalid email provided.",
+      } as Message);
+    }
   }
 
   function handlePasswordReset() {
@@ -48,13 +57,13 @@ export default (req: Request, res: Response): void => {
   if (email && action) {
     db.getUserByEmail(escape(email))
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        .then(async (_data: any) => {
+        .then(async (data: any) => {
           switch (action) {
             case "verify":
               handlePasswordVerification();
               break;
             case "initiate":
-              handlePasswordResetInitiation();
+              handlePasswordResetInitiation(data);
               break;
             case "reset":
               handlePasswordReset();

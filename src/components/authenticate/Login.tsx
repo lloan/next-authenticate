@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-unfetch';
 import {FormEvent} from 'react';
 import notify from '../utility/Notify';
+import { Message } from '../../..';
 
 function Login(): JSX.Element {
   const handleLogin = (event: FormEvent) => {
@@ -29,13 +30,13 @@ function Login(): JSX.Element {
       body: JSON.stringify(data),
     })
         .then((response: { json: () => any }) => response.json())
-        .then((response: { state: boolean; message: string }) => {
-          const {state, message} = response;
+        .then((response: Message) => {
+          const {status, message} = response;
 
           // hide spinner as work is essentially done
           if (spinner) spinner.classList.add('uk-hidden');
 
-          if (state) {
+          if (status) {
             if ((process as any).browser && document && UIkit) {
               document.location.href = "/dashboard";
             }

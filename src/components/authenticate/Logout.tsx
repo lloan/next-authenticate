@@ -10,9 +10,9 @@ export default function Logout() {
     fetch(url, {
       method: 'POST',
     }).then((response) => response.json()).then((response) => {
-      const {state} = response;
+      const {status} = response;
 
-      if (state) {
+      if (status) {
         if (document) {
           document.location.href = "/logged-out";
         }

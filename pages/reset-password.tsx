@@ -1,5 +1,5 @@
 import Redirect from "../src/components/animation/Redirect";
-import {NextSeo} from "next-seo";
+// import {NextSeo} from "next-seo";
 import {useState, useEffect} from "react";
 import notify from "../src/components/utility/Notify";
 import Password from "../src/components/authenticate/Password";
