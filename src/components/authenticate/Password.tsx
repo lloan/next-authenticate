@@ -73,10 +73,10 @@ function Password(): JSX.Element {
     <div className="uk-margin password-requirements uk-margin-remove-top">
       <p className="uk-margin-remove-bottom"><strong>Password Requirements</strong></p>
       <ul className="uk-margin-remove-bottom">
-        <li>At least one numeric character <i className="uk-hidden fa fa-check" data-check="number"/></li>
-        <li>At least one lowercase character <i className="uk-hidden fa fa-check" data-check="lower"/></li>
-        <li>At least one uppercase character <i className="uk-hidden fa fa-check" data-check="upper"/></li>
-        <li>At least 10 characters in length <i className="uk-hidden fa fa-check" data-check="length"/></li>
+        <li>At least one numeric character <i className="uk-hidden fa fa-check green" data-check="number"/></li>
+        <li>At least one lowercase character <i className="uk-hidden fa fa-check green" data-check="lower"/></li>
+        <li>At least one uppercase character <i className="uk-hidden fa fa-check green" data-check="upper"/></li>
+        <li>At least 10 characters in length <i className="uk-hidden fa fa-check green" data-check="length"/></li>
       </ul>
       <a href="#" className="show-password uk-align-right" onClick={(event) => showPassword(event)}>show password</a>
 

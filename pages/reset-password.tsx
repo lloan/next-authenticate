@@ -63,18 +63,15 @@ function ResetPassword(props: any) {
   // only render page if user, token found in query
   if (props.query.hasOwnProperty('user') && props.query.hasOwnProperty('token')) {
     return (
-      <main>
-        <section>
-          <div className="uk-container" >
-            {confirmation &&
+      <div className="uk-container uk-margin-large-top">
+        {confirmation &&
           (<div>
-           reset password form
             {/* // TODO: Create a form and function to handle submission of a new password since we're verified */}
             <Password/>
           </div>)
-            }
-            {!confirmation &&
-        <div className="uk-grid uk-flex-middle">
+        }
+        {!confirmation &&
+
           <div>
             <h1 className="primary">Password Reset</h1>
             <p className="uk-text-bolder">Check your email.</p>
@@ -91,11 +88,8 @@ function ResetPassword(props: any) {
               </a>
             </Link>
           </div>
-        </div>
-            }
-          </div>
-        </section>
-      </main>
+        }
+      </div>
     );
   } else {
     setTimeout(()=> {
