@@ -138,7 +138,6 @@ db.emailConfirmed = function(user: string): Promise<boolean> {
 };
 
 db.confirmEmail = function(user: string, token: string): Promise<boolean> {
-  console.log(user, token);
   return new Promise((resolve, reject) => {
     // Get current confirmation token from the DB for user in question
     db.query(`SELECT confirmation FROM ${process.env.DBNAME}.user WHERE username = ${escape(user)}`,
@@ -228,7 +227,6 @@ db.verifyPasswordToken = function(email: string, token: string): Promise<Message
 };
 
 db.passwordReset = function(user: string, token: string, password: string): Promise<Message> {
-  console.log(user, password, escape(decodeURIComponent(password)), token, escape(decodeURIComponent(token)));
   return new Promise((resolve, reject) => {
     const pass: string = db.createPassword(decodeURIComponent(password)); // create new password using new password
 
@@ -241,7 +239,6 @@ db.passwordReset = function(user: string, token: string, password: string): Prom
     AND password_token = ${escape(decodeURIComponent(token))}`,
     function(error: any, results: any) {
       if (error) reject(error.sqlMessage ? error.sqlMessage : error);
-      console.log(results);
       if (results !== undefined) {
         const status = (results.serverStatus === 2 && results.changedRows !== 0) as boolean;
 

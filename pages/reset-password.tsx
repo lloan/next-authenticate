@@ -89,14 +89,31 @@ function ResetPassword(props: any) {
       })
           .then((response) => response.json())
           .then((response) => {
-            if (spinner) spinner.classList.add('uk-hidden');
-            console.log("response: ", response);
+            const {status, message} = response;
+
+            notify({
+              message: message,
+              status: status ? 'success' : 'danger',
+              pos: 'top-left',
+              timeout: 7000,
+            });
+
+            setConfirmation(Object.assign(confirmation, {
+              status: true,
+              message: "Password changed!",
+            }));
+
+            if ((process as any).browser) {
+              setTimeout(() => {
+                location.search = '';
+              }, 3000);
+            }
           });
     }
   }
 
   // only render page if user, token found in query
-  if (props.query.hasOwnProperty('user') && props.query.hasOwnProperty('token')) {
+  if (user && token && email && action) {
     return (
       <div className="uk-container uk-margin-large-top">
         {confirmation.status &&
@@ -106,6 +123,7 @@ function ResetPassword(props: any) {
               <form onSubmit={(event) => handlePasswordReset(event)}>
                 <div className="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body">
                   <p>Please provide us with your new password. Your new password must meet minimum requirements.</p>
+                  <input className="uk-hidden" type="text" name="username" autoComplete="username"/>
                   <Password/>
                   <p className="uk-text-center"><small>Double check your new password!</small></p>
                   <button className="uk-button bg-primary black uk-button-large uk-width-1-1">Reset Password</button>
@@ -145,7 +163,7 @@ function ResetPassword(props: any) {
       if (document) {
         document.location.href = "/authenticate";
       }
-    }, 2500);
+    }, 3000);
     return (
       <Redirect/>
     );
