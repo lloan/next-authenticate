@@ -128,7 +128,7 @@ function ResetPassword(props: any) {
             </p>
             {confirmation.message &&
               <p>
-                {confirmation.message}
+                System message: {confirmation.message}
               </p>
             }
             <Link href="/authenticate">
