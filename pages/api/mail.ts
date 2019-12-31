@@ -1,7 +1,7 @@
 import ReactDOMServer from 'react-dom/server';
 import confirmationEmail from './../../email/templates/main/confirmationEmail';
 import resetPasswordEmail from './../../email/templates/main/resetPasswordEmail';
-import {Request, Response} from '../..';
+import {Request, Response, Message} from '../..';
 
 const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
@@ -55,9 +55,9 @@ export default async (req: Request, res: Response): Promise<void> => {
   if (!action || !username || !email) {
     res.status(400);
     res.send({
-      state: false,
+      status: false,
       message: "Invalid input",
-    });
+    } as Message);
     return;
   }
 
@@ -70,15 +70,15 @@ export default async (req: Request, res: Response): Promise<void> => {
   transporter.sendMail(mailOptions, (err: any, info: string) => {
     if (err) {
       res.send({
-        state: false,
+        status: false,
         message: "Email failed.",
-      });
+      } as Message);
     }
 
     console.log("Info: ", info);
     res.send({
-      state: true,
+      status: true,
       message: "Email successfully sent.",
-    });
+    } as Message);
   });
 };

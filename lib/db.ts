@@ -178,32 +178,32 @@ db.initiatePasswordReset = function(user: string, email: string): Promise<Messag
         function(error: any, results: any) {
           if (error) reject(error.sqlMessage ? error.sqlMessage : error);
 
-          const data = {
-            action: 'reset',
-            data: {
-              token,
-            },
-            username: user,
-            email,
-          };
+          if (results.serverStatus === 2) {
+            const data = {
+              action: 'reset',
+              data: {
+                token,
+              },
+              username: user,
+              email,
+            };
 
-          fetch(`${process.env.HOST}api/mail`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-          })
-              .then((res) => res.json())
-              .then((data) => {
-                console.log(data); // for debugging
-
-                // return results - we assume this will work.
-                resolve({
-                  status: results.serverStatus === 2,
-                  message: results.serverStatus === 2 ? "request submitted" : "request denied",
-                } as Message);
-              });
+            fetch(`${process.env.HOST}api/mail`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(data),
+            })
+                .then((res) => res.json())
+                .then((result: Message) => {
+                  // return results - we assume this will work.
+                  resolve({
+                    status: result.status,
+                    message: result.status ? "request submitted" : "request denied",
+                  } as Message);
+                });
+          }
         });
   });
 };

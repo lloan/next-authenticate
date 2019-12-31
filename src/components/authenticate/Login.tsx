@@ -1,11 +1,12 @@
 import fetch from 'isomorphic-unfetch';
 import {FormEvent} from 'react';
 import notify from '../utility/Notify';
-import { Message } from '../../..';
+import {Message} from '../../..';
 
 function Login(): JSX.Element {
   const handleLogin = (event: FormEvent) => {
     event.preventDefault();
+    event.stopPropagation();
 
     const username: HTMLSelectElement | null = document.querySelector('[name="login-username"]');
     const password: HTMLSelectElement | null = document.querySelector('[name="login-password"]');
@@ -54,7 +55,7 @@ function Login(): JSX.Element {
   return (
     <section className="auth-login">
       <p className="uk-text-center">Sign in to your account</p>
-      <form onSubmit={(e: any) => handleLogin(e)}>
+      <form onSubmit={(event: any) => handleLogin(event)}>
         <div className="uk-margin">
           <div className="uk-inline uk-width-1-1">
             <i className="uk-form-icon fa fa-user" />
@@ -73,7 +74,7 @@ function Login(): JSX.Element {
           <a href="#" uk-switcher-item="2">Forgot Password?</a>
         </div>
         <div className="uk-margin">
-          <button className="uk-button bg-primary black uk-button-large uk-width-1-1">Login</button>
+          <button type="submit" className="uk-button bg-primary black uk-button-large uk-width-1-1">Login</button>
         </div>
         <div className="uk-text-small uk-text-center">
           Not registered? <a href="#" uk-switcher-item="1">Create an account</a>
