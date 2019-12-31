@@ -43,7 +43,7 @@ function Signup(): JSX.Element {
       // get all required variables to submit new user request
       const username: HTMLInputElement | null = document.querySelector('[name="signup-username"]');
       const email: HTMLInputElement | null = document.querySelector('[name="signup-email"]');
-      const password: HTMLInputElement | null = document.querySelector('[name="signup-password"]');
+      const password: HTMLInputElement | null = document.querySelector('[name="password-component"]');
 
       // API route that will handle signing in
       const url = '/api/authenticate/signup';

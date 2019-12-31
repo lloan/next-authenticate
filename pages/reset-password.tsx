@@ -1,9 +1,10 @@
 import Redirect from "../src/components/animation/Redirect";
 // import {NextSeo} from "next-seo";
-import {useState, useEffect} from "react";
+import {useState, useEffect, FormEvent} from "react";
 import notify from "../src/components/utility/Notify";
 import Password from "../src/components/authenticate/Password";
 import Link from "next/link";
+import Spinner from "../src/components/global/Spinner";
 
 /**
  * Check provided input - reset account password if valid.
@@ -14,11 +15,13 @@ function ResetPassword(props: any) {
   const {query} = props;
   const {user, token, email, action} = query;
   const url = 'api/authenticate/reset';
-  const [confirmation, setConfirmation] = useState(undefined);
+  const [confirmation, setConfirmation] = useState({
+    status: undefined,
+    message: undefined,
+  });
 
   useEffect(() => {
-    console.log(action);
-    if (user && token && email && confirmation === undefined) {
+    if (user && token && email && action && confirmation.status === undefined) {
       fetch(url, {
         method: 'POST',
         headers: {
@@ -31,6 +34,8 @@ function ResetPassword(props: any) {
       })
           .then((response) => response.json())
           .then((response) => {
+            console.log(response);
+
             if (response.status) {
               notify({
                 message: response.message,
@@ -47,7 +52,7 @@ function ResetPassword(props: any) {
               });
             }
 
-            setConfirmation(response.status);
+            setConfirmation(response);
           })
           .catch((error) => {
             notify({
@@ -60,17 +65,56 @@ function ResetPassword(props: any) {
     }
   }, []);
 
+  function handlePasswordReset(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const spinner: HTMLElement | null = document.getElementById('spinner');
+
+    if (spinner) spinner.classList.remove('uk-hidden');
+
+    const password = document.querySelector('[name="password-component"]') as HTMLInputElement;
+
+    if (user && token && email && action && confirmation.status && password.value !== undefined) {
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...query,
+          token,
+          action: "reset",
+          password: password.value,
+        }),
+      })
+          .then((response) => response.json())
+          .then((response) => {
+            if (spinner) spinner.classList.add('uk-hidden');
+            console.log("response: ", response);
+          });
+    }
+  }
+
   // only render page if user, token found in query
   if (props.query.hasOwnProperty('user') && props.query.hasOwnProperty('token')) {
     return (
       <div className="uk-container uk-margin-large-top">
-        {confirmation &&
-          (<div>
-            {/* // TODO: Create a form and function to handle submission of a new password since we're verified */}
-            <Password/>
-          </div>)
+        {confirmation.status &&
+          (
+            <div id="login-container" className="uk-section uk-flex uk-flex-middle uk-animation-fade">
+              <Spinner ratio={3} classes="uk-hidden"/>
+              <form onSubmit={(event) => handlePasswordReset(event)}>
+                <div className="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body">
+                  <p>Please provide us with your new password. Your new password must meet minimum requirements.</p>
+                  <Password/>
+                  <p className="uk-text-center"><small>Double check your new password!</small></p>
+                  <button className="uk-button bg-primary black uk-button-large uk-width-1-1">Reset Password</button>
+                </div>
+              </form>
+            </div>
+          )
         }
-        {!confirmation &&
+        {!confirmation.status && confirmation.status !== undefined &&
 
           <div>
             <h1 className="primary">Password Reset</h1>
@@ -82,6 +126,11 @@ function ResetPassword(props: any) {
                 Confirm that you received the email and then try logging in to
                 your account with your new password.
             </p>
+            {confirmation.message &&
+              <p>
+                {confirmation.message}
+              </p>
+            }
             <Link href="/authenticate">
               <a>
                   Go to Log In page

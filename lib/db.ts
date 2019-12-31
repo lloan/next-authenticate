@@ -228,18 +228,20 @@ db.verifyPasswordToken = function(email: string, token: string): Promise<Message
 };
 
 db.passwordReset = function(user: string, token: string, password: string): Promise<Message> {
+  console.log(user, password, escape(decodeURIComponent(password)), token, escape(decodeURIComponent(token)));
   return new Promise((resolve, reject) => {
-    const pass: string = db.createPassword(password); // create new password using new password
+    const pass: string = db.createPassword(decodeURIComponent(password)); // create new password using new password
 
     // update password_reset, password_token, password
     // find user by username and password_token
     db.query(`
     UPDATE ${process.env.DBNAME}.user 
-    SET password_reset = 0, password_token = '', password = ${escape(pass)} 
-    WHERE username = ${escape(user)} 
-    AND password_token = ${escape(token)}`,
+    SET password_reset = 0, password_token = '', password = ${escape(decodeURIComponent(pass))} 
+    WHERE username = ${escape(decodeURIComponent(user))} 
+    AND password_token = ${escape(decodeURIComponent(token))}`,
     function(error: any, results: any) {
       if (error) reject(error.sqlMessage ? error.sqlMessage : error);
+      console.log(results);
       if (results !== undefined) {
         const status = (results.serverStatus === 2 && results.changedRows !== 0) as boolean;
 

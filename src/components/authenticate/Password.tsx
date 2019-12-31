@@ -33,7 +33,7 @@ const handleRequirements = (password: string) => {
 const showPassword = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
   event.preventDefault();
 
-  const password = document.querySelector('[name="signup-password"]');
+  const password = document.querySelector('[name="password-component"]');
   const showPassword = document.querySelector('.show-password');
   const type: string | null = password ? password.getAttribute('type') : null;
 
@@ -83,7 +83,7 @@ function Password(): JSX.Element {
       <div className="uk-inline uk-width-1-1">
         <i className="uk-form-icon fa fa-lock"/>
         <input className="uk-input uk-form-large" onChange={(event) => handlePassword(event)}
-          type="password" placeholder="password" name="signup-password" autoComplete="current-password" required={true} minLength={10}/>
+          type="password" placeholder="password" name="password-component" autoComplete="current-password" required={true} minLength={10}/>
       </div>
 
     </div>
