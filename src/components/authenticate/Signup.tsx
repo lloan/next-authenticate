@@ -7,7 +7,7 @@ import Password from './Password';
  * @constructor
  */
 function Signup(): JSX.Element {
-  const [message, setMessage] = useState({state: false, message: ''});
+  const [message, setMessage] = useState({status: false, message: ''});
 
   // function that checks if class is found, proceed to do its magic
   const handleToggle = (element: any | null, find: string, action: string) => {
@@ -71,22 +71,22 @@ function Signup(): JSX.Element {
                     .then((response) => {
                       if (spinner) spinner.classList.add('uk-hidden');
 
-                      if (response && response.state) {
+                      if (response && response.status) {
                         document.location.href = `/welcome?user=${username.value}`;
                         setMessage({
-                          state: false,
+                          status: false,
                           message: '',
                         });
                       } else {
                         setMessage({
-                          state: true,
+                          status: true,
                           message: 'Error sending confirmation email, please contact an admin.',
                         });
                       }
                     });
               } else {
                 setMessage({
-                  state: true,
+                  status: true,
                   message: 'Error creating user, please contact an admin if it happens again.',
                 });
               }
@@ -170,7 +170,7 @@ function Signup(): JSX.Element {
 
   return (
     <section className="auth-signup">
-      <Message message={message.message} hidden={message.state}/>
+      <Message message={message.message} hidden={message.status}/>
       <p className="uk-text-center">Sign up today. It&apos;s free!</p>
       <form onSubmit={(e) => handleSignUp(e)}>
         <div className="uk-margin uk-margin-remove-bottom">

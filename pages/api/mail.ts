@@ -53,7 +53,6 @@ export default async (req: Request, res: Response): Promise<void> => {
   const {action, username, email, data} = req.body;
 
   if (!action || !username || !email) {
-    res.status(400);
     res.send({
       status: false,
       message: "Invalid input",
@@ -62,7 +61,7 @@ export default async (req: Request, res: Response): Promise<void> => {
   }
 
   const mailOptions= Object.assign({
-    from: '"Administrator" <admin@iesd.com>',
+    from: '"Administrator" <' + process.env.MAILUSER + '>',
     to: String(email),
   }, handleAction({action, username, email, data}));
 
@@ -71,11 +70,11 @@ export default async (req: Request, res: Response): Promise<void> => {
     if (err) {
       res.send({
         status: false,
-        message: "Email failed.",
+        message: "Email failed to send.",
       } as Message);
     }
 
-    console.log("Info: ", info);
+    console.log("Email log: ", info);
     res.send({
       status: true,
       message: "Email successfully sent.",
