@@ -9,7 +9,7 @@ import Password from './Password';
 function Signup(): JSX.Element {
   const [message, setMessage] = useState({status: false, message: ''});
 
-  // function that checks if class is found, proceed to do its magic
+  // toggles visibility of an element
   const handleToggle = (element: any | null, find: string, action: string) => {
     if (element) {
       if (action === 'add' && !element.classList.contains(find)) {
