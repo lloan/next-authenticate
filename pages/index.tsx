@@ -3,6 +3,7 @@ import {DefaultSeo} from "next-seo";
 import Link from "next/link";
 import Footer from '../src/components/global/Footer';
 
+// render home page.
 function Home(): JSX.Element {
   return (
     <main>
