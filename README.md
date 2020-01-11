@@ -1,4 +1,4 @@
-# next-authenticate
+# Next-Authenticate
 
 An authentication system built for use with [Next.js](https://github.com/zeit/next.js) - an awesome React framework. 
 
