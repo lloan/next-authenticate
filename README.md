@@ -8,6 +8,9 @@ To get started, make sure to fill out the `.env` file with the appropriate infor
 
 This authentication system has a couple of features that might be useful to build on top of. This system is not meant to be used as-is aesthetically, it's meant to be used as a base for your project. You get a headstart with your authentication system, not the UI. 
 
+![auth screenshot](https://raw.githubusercontent.com/lloan/next-authenticate/master/public/images/authentication-screenshot.png)
+
+
 ## Prerequisites
 
 The minimum requirements to run this include:
