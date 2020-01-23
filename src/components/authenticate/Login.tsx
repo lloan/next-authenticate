@@ -1,3 +1,4 @@
+import React from "react";
 import fetch from 'isomorphic-unfetch';
 import {FormEvent} from 'react';
 import {useRouter} from 'next/router';
@@ -40,7 +41,6 @@ function Login(): JSX.Element {
           if (spinner) spinner.classList.add('uk-hidden');
 
           if (status) {
-            // Context check user
             router.push("/dashboard");
           } else {
             notify({

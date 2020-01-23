@@ -11,3 +11,4 @@ const redirects: Redirects = {
 const unprotected: Array<string> = ["/", "/authenticate", "/logged-out", "/welcome", "/confirmation", "/reset-password"];
 
 export {redirects, unprotected};
+

@@ -34,3 +34,12 @@ export interface Notification extends UIkit.Notify {
   }
 
 export default class NextAuthenticate extends Component<NextAuthenticateProps> { }
+
+export type User = string | undefined;
+
+export interface MyAppContext {
+    user: string | undefined;
+    setUser(user: User): void;
+    clearUser(): void;
+    fetchUser(): void;
+}
