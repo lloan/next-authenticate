@@ -1,7 +1,7 @@
 import {Redirects} from "..";
 
 const redirects: Redirects = {
-  "/": {redirect: false},
+  "/": {redirect: undefined},
   "/welcome": {redirect: "/dashboard"},
   "/confirmation": {redirect: "/dashboard"},
   "/logged-out": {redirect: "/dashboard"},
@@ -11,3 +11,4 @@ const redirects: Redirects = {
 const unprotected: Array<string> = ["/", "/authenticate", "/logged-out", "/welcome", "/confirmation", "/reset-password"];
 
 export {redirects, unprotected};
+
