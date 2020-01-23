@@ -1,13 +1,16 @@
 import {createContext} from "react";
 import {MyAppContext} from "../";
 
-const defaultAuth = {
+const defaultAppContext = {
   user: undefined,
-  access: false,
-  redirect: undefined,
-  isPublic: false,
+  setUser: () => {
+    return;
+  },
+  clearUser: () => {
+    return;
+  },
 };
 
-const Context = createContext<MyAppContext>(defaultAuth);
+const AppContext = createContext<MyAppContext>(defaultAppContext);
 
-export default Context;
+export default AppContext;

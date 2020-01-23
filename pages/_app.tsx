@@ -1,6 +1,6 @@
 import '../sass/main.scss';
 import App from 'next/app';
-import Context from '../src/context';
+import AppContext from '../src/context';
 import {redirects, unprotected} from '../src/pages';
 import fetch from "isomorphic-unfetch";
 import {DefaultSeo} from 'next-seo';
@@ -8,9 +8,14 @@ import SEO from '../next-seo.config';
 import Unauthorized from "../src/components/global/Unauthorized";
 import Redirect from "../src/components/animation/Redirect";
 import Loader from "../src/components/animation/Loader";
-import {MyAppContext} from "../";
+import {User} from '..';
 
-interface MyAppState extends MyAppContext {
+
+interface MyAppState {
+  user: User;
+  access: boolean;
+  redirect: string | undefined;
+  isPublic: false;
   isAccessFetched: boolean;
 }
 
@@ -46,6 +51,14 @@ export default class MyApp extends App<{}, {}, MyAppState> {
     }, 2000);
   }
 
+  setUser(user: User) {
+    this.setState({user});
+  }
+
+  clearUser() {
+    this.setState({user: undefined});
+  }
+
   render() {
     const {Component, pageProps} = this.props;
     const {access, redirect, isPublic, isAccessFetched} = this.state;
@@ -57,10 +70,14 @@ export default class MyApp extends App<{}, {}, MyAppState> {
         return <Redirect />;
       } else if (access || isPublic) {
         return (
-          <Context.Provider value={{...this.state}}>
+          <AppContext.Provider value={{
+            user: this.state.user,
+            setUser: this.setUser,
+            clearUser: this.clearUser,
+          }}>
             <DefaultSeo {...SEO} />
             <Component {...pageProps} />
-          </Context.Provider>
+          </AppContext.Provider>
         );
       } else if (!access) {
         return <Unauthorized/>;
