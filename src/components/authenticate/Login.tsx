@@ -1,9 +1,11 @@
 import fetch from 'isomorphic-unfetch';
 import {FormEvent} from 'react';
+import {useRouter} from 'next/router';
 import notify from '../utility/Notify';
 import {Message} from '../../..';
 
 function Login(): JSX.Element {
+  const router = useRouter();
   const handleLogin = (event: FormEvent) => {
     event.preventDefault();
     event.stopPropagation();
@@ -38,9 +40,8 @@ function Login(): JSX.Element {
           if (spinner) spinner.classList.add('uk-hidden');
 
           if (status) {
-            if ((process as any).browser && document && UIkit) {
-              document.location.href = "/dashboard";
-            }
+            // Context check user
+            router.push("/dashboard");
           } else {
             notify({
               message,

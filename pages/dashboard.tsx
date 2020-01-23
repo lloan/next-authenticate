@@ -1,11 +1,11 @@
 import {useContext} from 'react';
-import Context from '../src/context';
+import {AuthContext} from '../src/context';
 import Logout from '../src/components/authenticate/Logout';
 import {DefaultSeo} from "next-seo";
 import SEO from "../next-seo.config";
 
 function Dashboard() {
-  const {user} = useContext(Context);
+  const {user} = useContext(AuthContext);
 
   return (
     <div className="uk-container uk-margin-large-top">

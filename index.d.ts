@@ -25,7 +25,7 @@ export interface Response {
 
 export interface Redirects {
     [page: string]: {
-        redirect: string | boolean;
+        redirect: string | undefined;
     };
 }
 
