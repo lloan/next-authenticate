@@ -41,4 +41,5 @@ export interface MyAppContext {
     user: string | undefined;
     setUser(user: User): void;
     clearUser(): void;
+    fetchUser(): void;
 }

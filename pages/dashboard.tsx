@@ -1,11 +1,12 @@
 import {useContext} from 'react';
-import Context from '../src/context';
+import AppContext from '../src/context';
 import Logout from '../src/components/authenticate/Logout';
 import {DefaultSeo} from "next-seo";
 import SEO from "../next-seo.config";
+import {NextPage} from 'next';
 
-function Dashboard() {
-  const {user} = useContext(Context);
+const Dashboard: NextPage = () => {
+  const {user} = useContext(AppContext);
 
   return (
     <div className="uk-container uk-margin-large-top">
@@ -17,6 +18,6 @@ function Dashboard() {
       <Logout/>
     </div>
   );
-}
+};
 
 export default Dashboard;

@@ -9,6 +9,9 @@ const defaultAppContext = {
   clearUser: () => {
     return;
   },
+  fetchUser: () => {
+    return;
+  },
 };
 
 const AppContext = createContext<MyAppContext>(defaultAppContext);
