@@ -2,6 +2,7 @@ import {NextSeo} from "next-seo";
 import {useEffect, useState} from 'react';
 import notify from "../src/components/utility/Notify";
 import Redirect from "../src/components/animation/Redirect";
+import {useRouter} from "next/router";
 
 /**
  * Check provided input - activate account if valid.
@@ -9,6 +10,7 @@ import Redirect from "../src/components/animation/Redirect";
  * @return {void} checks validity of input provided.
  */
 function Confirmation(props: any) {
+  const router = useRouter();
   const {query} = props;
   const {user, token} = query;
   const url = '/api/validate/confirm';
@@ -38,9 +40,10 @@ function Confirmation(props: any) {
               });
 
               setTimeout(() => {
-                if (document) {
-                  document.location.href = "/authenticate";
-                }
+                // timeout to show success message
+                // would be better to push a message onto authenticate
+                // and who message in /authenticate page
+                router.push("authenticate");
               }, 2500);
             } else {
               notify({
@@ -96,7 +99,7 @@ function Confirmation(props: any) {
   } else {
     setTimeout(()=> {
       if (document) {
-        document.location.href = "/authenticate";
+        router.push("/authenticate");
       }
     }, 2500);
     return (
