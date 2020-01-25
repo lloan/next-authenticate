@@ -1,6 +1,11 @@
+import React from 'react';
 import fetch from 'isomorphic-unfetch';
+import {useRouter} from 'next/router';
+import AppContext from '../../context';
 
 export default function Logout() {
+  const router = useRouter();
+  const appContext = React.useContext(AppContext);
   const handleLogout = (e: any) => {
     e.preventDefault();
 
@@ -13,9 +18,8 @@ export default function Logout() {
       const {status} = response;
 
       if (status) {
-        if (document) {
-          document.location.href = "/logged-out";
-        }
+        appContext.clearUser();
+        router.push("/logged-out");
       }
     }).catch((error) => {
       console.log(error);

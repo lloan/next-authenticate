@@ -55,7 +55,7 @@ export default class MyApp extends App<{}, {}, MyAppState> {
   }
 
   clearUser() {
-    this.setState({user: undefined});
+    this.setState({user: undefined, access: false});
   }
 
   fetchUser() {
