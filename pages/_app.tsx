@@ -6,7 +6,7 @@ import {DefaultSeo} from 'next-seo';
 import SEO from '../next-seo.config';
 import Unauthorized from "../src/components/global/Unauthorized";
 import Redirect from "../src/components/animation/Redirect";
-// import Loader from "../src/components/animation/Loader";
+import Loader from "../src/components/animation/Loader";
 import {User} from '..';
 
 
@@ -78,8 +78,7 @@ export default class MyApp extends App<{}, {}, MyAppState> {
     const {access, redirect, isPublic, loading} = this.state;
 
     if (loading) {
-      return <h1>Loading</h1>;
-      // return <Loader />;
+      return <Loader />;
     }
 
     if (access && redirect) {
@@ -90,9 +89,9 @@ export default class MyApp extends App<{}, {}, MyAppState> {
       return (
         <AppContext.Provider value={{
           user: this.state.user,
-          setUser: this.setUser,
-          clearUser: this.clearUser,
-          fetchUser: this.fetchUser,
+          setUser: (user: User) => this.setUser(user),
+          clearUser: () => this.clearUser(),
+          fetchUser: () => this.fetchUser(),
         }}>
           <DefaultSeo {...SEO} />
           <Component {...pageProps} />

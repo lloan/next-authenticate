@@ -4,10 +4,12 @@ import {FormEvent} from 'react';
 import {useRouter} from 'next/router';
 import notify from '../utility/Notify';
 import {Message} from '../../..';
+import AppContext from "../../context";
 
 function Login(): JSX.Element {
   const router = useRouter();
-  const handleLogin = (event: FormEvent) => {
+  const appContext = React.useContext(AppContext);
+  const handleLogin = async (event: FormEvent) => {
     event.preventDefault();
     event.stopPropagation();
 
@@ -26,31 +28,30 @@ function Login(): JSX.Element {
     };
 
 
-    fetch(url, {
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
-    })
-        .then((response: { json: () => any }) => response.json())
-        .then((response: Message) => {
-          const {status, message} = response;
+    });
+    const json: Message = await response.json();
+    const {message, status} = json;
 
-          // hide spinner as work is essentially done
-          if (spinner) spinner.classList.add('uk-hidden');
+    // hide spinner as work is essentially done
+    if (spinner) spinner.classList.add('uk-hidden');
 
-          if (status) {
-            router.push("/dashboard");
-          } else {
-            notify({
-              message,
-              status: 'danger',
-              pos: 'top-left',
-              timeout: 5000,
-            });
-          }
-        });
+    if (!status) {
+      notify({
+        message,
+        status: 'danger',
+        pos: 'top-left',
+        timeout: 5000,
+      });
+    } else {
+      appContext.fetchUser();
+      router.push("/dashboard");
+    }
   };
 
   return (
