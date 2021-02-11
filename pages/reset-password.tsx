@@ -1,6 +1,7 @@
 import Redirect from "../src/components/animation/Redirect";
 // import {NextSeo} from "next-seo";
 import {useState, useEffect, FormEvent} from "react";
+import {useRouter} from "next/router";
 import notify from "../src/components/utility/Notify";
 import Password from "../src/components/authenticate/Password";
 import Link from "next/link";
@@ -19,6 +20,7 @@ function ResetPassword(props: any) {
     status: undefined,
     message: undefined,
   });
+  const router = useRouter();
 
   useEffect(() => {
     if (user && token && email && action && confirmation.status === undefined) {
@@ -159,11 +161,7 @@ function ResetPassword(props: any) {
       </div>
     );
   } else {
-    setTimeout(()=> {
-      if (document) {
-        document.location.href = "/authenticate";
-      }
-    }, 3000);
+    router.push("/authenticate");
     return (
       <Redirect/>
     );

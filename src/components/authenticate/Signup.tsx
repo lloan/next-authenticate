@@ -1,4 +1,5 @@
 import React, {useState, FormEvent} from 'react';
+import {useRouter} from 'next/router';
 import Message from '../global/Message';
 import Password from './Password';
 
@@ -8,6 +9,7 @@ import Password from './Password';
  */
 function Signup(): JSX.Element {
   const [message, setMessage] = useState({status: false, message: ''});
+  const router = useRouter();
 
   // toggles visibility of an element
   const handleToggle = (element: any | null, find: string, action: string) => {
@@ -72,7 +74,7 @@ function Signup(): JSX.Element {
                       if (spinner) spinner.classList.add('uk-hidden');
 
                       if (response && response.status) {
-                        document.location.href = `/welcome?user=${username.value}`;
+                        router.push(`/welcome?user=${username.value}`);
                         setMessage({
                           status: false,
                           message: '',

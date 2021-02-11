@@ -1,5 +1,19 @@
-import {createContext} from 'react';
+import {createContext} from "react";
+import {MyAppContext} from "../";
 
-const Context = createContext(({} as any));
+const defaultAppContext = {
+  user: undefined,
+  setUser: () => {
+    return;
+  },
+  clearUser: () => {
+    return;
+  },
+  fetchUser: () => {
+    return;
+  },
+};
 
-export default Context;
+const AppContext = createContext<MyAppContext>(defaultAppContext);
+
+export default AppContext;

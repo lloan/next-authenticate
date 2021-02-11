@@ -25,7 +25,7 @@ export interface Response {
 
 export interface Redirects {
     [page: string]: {
-        redirect: string | boolean;
+        redirect: string | undefined;
     };
 }
 
@@ -34,3 +34,12 @@ export interface Notification extends UIkit.Notify {
   }
 
 export default class NextAuthenticate extends Component<NextAuthenticateProps> { }
+
+export type User = string | undefined;
+
+export interface MyAppContext {
+    user: string | undefined;
+    setUser(user: User): void;
+    clearUser(): void;
+    fetchUser(): void;
+}

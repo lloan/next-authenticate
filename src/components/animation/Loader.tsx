@@ -1,34 +1,33 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 /**
  * Renders the loader component with animation.
  * @constructor
  */
-export default function Loader(): JSX.Element {
-  const offsetSupport = () => {
-    if ((process as any).browser && navigator) {
-      const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+const Loader: React.FC = () => {
+  const [browswerIsChrome, setBrowserIsChrome] = React.useState<boolean>(true);
 
-      if (!isChrome) {
-        const infinityChrome = document.getElementsByClassName('infinityChrome')[0] as HTMLDivElement;
-        const infinity = document.getElementsByClassName('infinity')[0] as HTMLDivElement;
+  useEffect(() => {
+    // if ((process as any).browser && navigator) {
+    const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
 
-        if (infinityChrome.hasOwnProperty('style')) infinityChrome.style.display = "none";
-        if (infinity.hasOwnProperty('style')) infinity.style.display = "block";
-      }
+    if (!isChrome) {
+      setBrowserIsChrome(false);
     }
-  };
+    // }
+  }, []);
+
   return (
     <section id="infinite-loader">
       {/* Google Chrome*/}
-      <div className="infinityChrome">
+      <div className="infinityChrome" style={{display: browswerIsChrome ? "block" : "none"}}>
         <div/>
         <div/>
         <div/>
       </div>
 
       {/* Safari and others*/}
-      <div className="infinity">
+      <div className="infinity" style={{display: browswerIsChrome ? "none" : "block"}}>
         <div>
           <span/>
         </div>
@@ -50,7 +49,8 @@ export default function Loader(): JSX.Element {
           </filter>
         </defs>
       </svg>
-      {offsetSupport()}
     </section>
   );
-}
+};
+
+export default Loader;
